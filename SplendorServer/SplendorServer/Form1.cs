@@ -49,6 +49,7 @@ namespace SplendorServer
         Player player1 = new Player();
         Player player2 = new Player();
         Board board = new Board();
+        //ActiveCard activeCard = new ActiveCard();
 
 
         public Form1()
@@ -100,8 +101,22 @@ namespace SplendorServer
 
         public void GameInit()
         {
-           // 클라이언트한테 보드 정보(turnEnd), 플레이어 초기 정보 전송
-           // send(1), send(2)
+            /*
+             * 1. 클라이언트에게 보드 정보, 플레이어 초기 정보 (Turn End 타입) 전송
+             *    (Player1 Send) (Player2 Send)
+             */
+
+            TurnEnd msg = new TurnEnd();
+            msg.Type = (int)PacketType.turnEnd;
+            msg.chosenNoble = null;
+            msg.players[0] = player1;
+            msg.players[1] = player2;
+            msg.boardInfo = board;
+            msg.activeCard = null;
+
+            Packet.Serialize(msg).CopyTo(sendBuffer, 0);
+            Send(1);
+            Send(2);
         }
 
         public void ServerStart()
@@ -169,7 +184,18 @@ namespace SplendorServer
                             {
                                 case (int)PacketType.gem:
                                     {
-                                        // 처리
+                                        /*
+                                         * 1. 보석을 이미 선택했는지 검사
+                                         * 2. 플레이어가 선택한 보석이 유효한지 검사
+                                         * 3. 1과 2를 위배하는지 정보를 클라이언트에게 전송
+                                         *    서버는 위배하는 즉시 다음 요청 기다림 
+                                         *    (Player1 Send)
+                                         * 4. 서버측에서 플레이어 보유하고 있는 보석 정보를 업데이트
+                                         * 5. 카드 활성화 계산 수행
+                                         * 6. 플레이어1,2에게 플레이어 정보, 카드 활성화 정보 전송
+                                         *    (Player1 Send) (Player2 Send)
+                                         */
+
                                         break;
                                     }
                                 case (int)PacketType.card:

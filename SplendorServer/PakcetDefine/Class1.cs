@@ -62,25 +62,27 @@ namespace PacketDefine
     [Serializable]
     public class Gem : Packet
     {
-        int[] gems = new int[5];            // 선택된 보석
-        Player[] players = new Player[2];   // 플레이어 1, 2 정보
+        public int[] gems = new int[5];            // 선택된 보석
+        public Player[] players = new Player[2];   // 플레이어 1, 2 정보
+        public ActiveCard activeCard;              // 활성화될 카드 정보
     }
 
     /* 카드 구매 시 */
     [Serializable]
     public class SelectCard : Packet
     {
-        int cardID;                         // 구매한 카드 식별자
-        Player[] players = new Player[2];   // 플레이어 1, 2 정보
+        public Card chosenCard;                    // 구매한 카드
+        public Player[] players = new Player[2];   // 플레이어 1, 2 정보
     }
 
     /* 턴 종료 시 + 초기 화면 설정 */
     [Serializable]
     public class TurnEnd : Packet
     {
-        int nobleNum;                       // 방문한 귀족 식별자
-        Player[] players = new Player[2];   // 플레이어 1, 2 정보
-        Board board;
+        public Noble chosenNoble;                  // 방문한 귀족
+        public Player[] players = new Player[2];   // 플레이어 1, 2 정보
+        public Board boardInfo;                    // 보드 정보
+        public ActiveCard activeCard;              // 활성화될 카드 정보
     }
 
 }

@@ -16,11 +16,11 @@ namespace GameClassDefine
 
     public class Card
     {
-        int cardID;                     // 카드 식별자
-        int[] cardCost = new int[5];    // 구매 시 필요한 보석 개수
-        int cardScore;                  // 카드 점수
-        int cardLevel;                  // 카드 레벨
-        int cardGem;                    // 카드 보석(할인)
+        public int cardID;                     // 카드 식별자
+        public int[] cardCost = new int[5];    // 구매 시 필요한 보석 개수
+        public int cardScore;                  // 카드 점수
+        public int cardLevel;                  // 카드 레벨
+        public int cardGem;                    // 카드 보석(할인)
 
         public Card(int id, int cost0, int cost1, int cost2, int cost3, int cost4, int score, int level, int gem)
         {
@@ -38,9 +38,9 @@ namespace GameClassDefine
 
     public class Noble
     {
-        int nobleID;                    // 귀족카드 식별자
-        int[] nobleCost = new int[5];   // 카드 보석(비용)
-        const int nobleScore = 3;       // 귀족 고정 점수
+        public int nobleID;                           // 귀족카드 식별자
+        public int[] nobleCost = new int[5];          // 카드 보석(비용)
+        public const int nobleScore = 3;       // 귀족 고정 점수
 
         public Noble(int id, int cost0, int cost1, int cost2, int cost3, int cost4)
         {
@@ -51,15 +51,24 @@ namespace GameClassDefine
             nobleCost[3] = cost3;
             nobleCost[4] = cost4;
         }
+
+        public int GetNoble()
+        {
+            return nobleID;
+        }
+        public int[] GetNobleCost()
+        {
+            return nobleCost;
+        }
     }
 
     public class Player
     {
-        int totalScore;                 // 총점수
-        int[] gemSale = new int[5];     // 할인 받을 수 있는 보석 개수
-        List<Card> playerCards = new List<Card>();      // 보유하고 있는 카드
-        List<Noble> playerNoble = new List<Noble>();    // 보유하고 있는 귀족
-        int[] playerGems = new int[5];               // 보유하고 있는 보석
+        public int totalScore;                 // 총점수
+        public int[] gemSale = new int[5];     // 할인 받을 수 있는 보석 개수
+        public List<Card> playerCards = new List<Card>();      // 보유하고 있는 카드
+        public List<Noble> playerNoble = new List<Noble>();    // 보유하고 있는 귀족
+        public int[] playerGems = new int[5];               // 보유하고 있는 보석
 
         public Player()
         {
@@ -72,18 +81,25 @@ namespace GameClassDefine
         }
     }
 
+    public class ActiveCard
+    {
+        public bool[] activeCards1 = { false, false, false, false };
+        public bool[] activeCards2 = { false, false, false, false };
+        public bool[] activeCards3 = { false, false, false, false };
+    }
+
     public class Board
     {
-        List<Card> boardCards1 = new List<Card>();      // 보드에 있는 레벨1 카드 (4개)
-        List<Card> boardCards2 = new List<Card>();      // 보드에 있는 레벨2 카드 (4개)
-        List<Card> boardCards3 = new List<Card>();      // 보드에 있는 레벨3 카드 (4개)
-        List<Noble> boardNoble = new List<Noble>();    // 보드에 있는 귀족 (5개)
-        int[] boardGems = new int[5];                   // 보드에 있는 보석
+        public List<Card> boardCards1 = new List<Card>();      // 보드에 있는 레벨1 카드 (4개)
+        public List<Card> boardCards2 = new List<Card>();      // 보드에 있는 레벨2 카드 (4개)
+        public List<Card> boardCards3 = new List<Card>();      // 보드에 있는 레벨3 카드 (4개)
+        public List<Noble> boardNoble = new List<Noble>();    // 보드에 있는 귀족 (5개)
+        public int[] boardGems = new int[5];                   // 보드에 있는 보석
 
-        List<Card> deckCards1 = new List<Card>();      // 덱에 있는 레벨1 카드 (40장)
-        List<Card> deckCards2 = new List<Card>();      // 덱에 있는 레벨2 카드 (30장)
-        List<Card> deckCards3 = new List<Card>();      // 덱에 있는 레벨3 카드 (20장)
-        List<Noble> deckNoble = new List<Noble>();    // 덱에 있는 귀족 (10개)
+        public List<Card> deckCards1 = new List<Card>();      // 덱에 있는 레벨1 카드 (40장)
+        public List<Card> deckCards2 = new List<Card>();      // 덱에 있는 레벨2 카드 (30장)
+        public List<Card> deckCards3 = new List<Card>();      // 덱에 있는 레벨3 카드 (20장)
+        public List<Noble> deckNoble = new List<Noble>();    // 덱에 있는 귀족 (10개)
 
         Random rnd = new Random();
 
@@ -95,15 +111,15 @@ namespace GameClassDefine
             // 보드 카드 배치 
             for(int i = 0; i < 4; i++)
             {
-                SelectCard(1);
-                SelectCard(2);
-                SelectCard(3);
-                SelectCard(4);
+                DrawCard(1);
+                DrawCard(2);
+                DrawCard(3);
+                DrawCard(4);
             }
-            SelectCard(4);
+            DrawCard(4);
         }
 
-        public void SelectCard(int level)
+        public void DrawCard(int level)
         {
             int num;
             if(level == 1)
@@ -244,18 +260,16 @@ namespace GameClassDefine
             deckCards3.Add(new Card(cardID++, 6, 3, 3, 0, 0, 4, 3, 4));
             deckCards3.Add(new Card(cardID++, 7, 3, 0, 0, 0, 5, 3, 4));
 
-            // noble
-            int nobleID = 1;
-            deckNoble.Add(new Noble(nobleID++, 0, 0, 4, 0, 4));
-            deckNoble.Add(new Noble(nobleID++, 4, 4, 0, 0, 0));
-            deckNoble.Add(new Noble(nobleID++, 3, 3, 3, 0, 0));
-            deckNoble.Add(new Noble(nobleID++, 0, 4, 0, 4, 0));
-            deckNoble.Add(new Noble(nobleID++, 0, 0, 0, 4, 4));
-            deckNoble.Add(new Noble(nobleID++, 0, 0, 3, 3, 3));
-            deckNoble.Add(new Noble(nobleID++, 3, 3, 0, 3, 0));
-            deckNoble.Add(new Noble(nobleID++, 0, 3, 0, 3, 3));
-            deckNoble.Add(new Noble(nobleID++, 4, 0, 4, 0, 0));
-            deckNoble.Add(new Noble(nobleID++, 3, 0, 3, 0, 3));
+            deckNoble.Add(new Noble(cardID++, 0, 0, 4, 0, 4));  // 91 ~ 100
+            deckNoble.Add(new Noble(cardID++, 4, 4, 0, 0, 0));
+            deckNoble.Add(new Noble(cardID++, 3, 3, 3, 0, 0));
+            deckNoble.Add(new Noble(cardID++, 0, 4, 0, 4, 0));
+            deckNoble.Add(new Noble(cardID++, 0, 0, 0, 4, 4));
+            deckNoble.Add(new Noble(cardID++, 0, 0, 3, 3, 3));
+            deckNoble.Add(new Noble(cardID++, 3, 3, 0, 3, 0));
+            deckNoble.Add(new Noble(cardID++, 0, 3, 0, 3, 3));
+            deckNoble.Add(new Noble(cardID++, 4, 0, 4, 0, 0));
+            deckNoble.Add(new Noble(cardID++, 3, 0, 3, 0, 3));
         }
     }
 }
