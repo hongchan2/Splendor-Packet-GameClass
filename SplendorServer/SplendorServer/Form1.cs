@@ -33,13 +33,9 @@ namespace SplendorServer
         private byte[] sendBuffer = new byte[1024 * 4];
         private byte[] readBuffer = new byte[1024 * 4];
 
-        /*
-        public Initialize m_initializeClass;
-        public BeforeSelect m_beforeSelectClass;
-        public BeforeExpand m_beforeExpandClass;
-        public FileTransfer m_fileTransferClass;
-        public ExitConnection m_exitConnectionClass;
-        */
+        public Gem m_GemClass;
+        public SelectCard m_SelectCard;
+        public TurnEnd m_TurnEnd;
 
         // Client and Connect
         public bool m_bConnect1 = false;
@@ -79,11 +75,11 @@ namespace SplendorServer
         {
             this.Invoke(new MethodInvoker(delegate ()
             {
-                txtLog.AppendText(msg + "\n");
+                txtLog.AppendText(msg + "\r\n");
             }));
         }
 
-        public void Send1(int num)
+        public void Send(int num)
         {
             if(num == 1)
             {
@@ -104,11 +100,13 @@ namespace SplendorServer
 
         public void GameInit()
         {
-           
+           // 클라이언트한테 보드 정보(turnEnd), 플레이어 초기 정보 전송
+           // send(1), send(2)
         }
 
         public void ServerStart()
         {
+            int turn = 1;
             try
             {
                 IPAddress ipAddr = IPAddress.Parse(IP);
@@ -121,6 +119,7 @@ namespace SplendorServer
 
                 while (m_bStop)
                 {
+                    // 플레이어 1 연결
                     m_client1 = m_server.AcceptTcpClient();
                     if (m_client1.Connected)
                     {
@@ -130,6 +129,7 @@ namespace SplendorServer
                         m_stream1 = m_client1.GetStream();
                     }
 
+                    // 플레이어 2 연결
                     m_client2 = m_server.AcceptTcpClient();
                     if (m_client2.Connected)
                     {
@@ -141,10 +141,50 @@ namespace SplendorServer
 
                     GameInit();
 
+                    // 게임 시작
                     while (m_bConnect1 && m_bConnect2)
                     {
-                    
                         // 플레이어1 턴
+                        while (turn == 1)
+                        {
+                            try
+                            {
+                                m_stream1.Read(readBuffer, 0, 1024 * 4);
+                            }
+                            catch
+                            {
+                                WriteLog("서버에서 데이터를 읽는데 에러가 발생해 서버를 종료합니다.");
+                                ServerStop();
+                                this.Invoke(new MethodInvoker(delegate ()
+                                {
+                                    btnServer.Text = "서버켜기";
+                                    btnServer.ForeColor = Color.Black;
+                                }));
+                                return;
+                            }
+
+                            Packet packet = (Packet)Packet.Desserialize(readBuffer);
+
+                            switch ((int)packet.Type)
+                            {
+                                case (int)PacketType.gem:
+                                    {
+                                        // 처리
+                                        break;
+                                    }
+                                case (int)PacketType.card:
+                                    {
+                                        // 처리
+                                        break;
+                                    }
+                                case (int)PacketType.turnEnd:
+                                    {
+                                        // 처리
+                                        turn = 2;
+                                        break;
+                                    }
+                            }
+                        }
 
                         // 플레이어2 턴
 
