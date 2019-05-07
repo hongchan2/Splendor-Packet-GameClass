@@ -74,12 +74,13 @@ namespace PacketDefine
         Player[] players = new Player[2];   // 플레이어 1, 2 정보
     }
 
-    /* 턴 종료 시 */
+    /* 턴 종료 시 + 초기 화면 설정 */
     [Serializable]
     public class TurnEnd : Packet
     {
         int nobleNum;                       // 방문한 귀족 식별자
         Player[] players = new Player[2];   // 플레이어 1, 2 정보
+        Board board;
     }
 
 }
