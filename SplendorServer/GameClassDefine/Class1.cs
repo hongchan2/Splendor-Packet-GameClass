@@ -40,7 +40,6 @@ namespace GameClassDefine
     {
         public int nobleID;                           // 귀족카드 식별자
         public int[] nobleCost = new int[5];          // 카드 보석(비용)
-        public const int nobleScore = 3;       // 귀족 고정 점수
 
         public Noble(int id, int cost0, int cost1, int cost2, int cost3, int cost4)
         {
@@ -105,7 +104,7 @@ namespace GameClassDefine
 
         public Board()
         {
-            boardGems[0] = boardGems[1] = boardGems[2] = boardGems[3] = boardGems[4] = 8;   // 보석 초기화
+            boardGems[0] = boardGems[1] = boardGems[2] = boardGems[3] = boardGems[4] = 4;   // 보석 초기화
             CardInit(); // 카드 생성 및 덱 리스트에 추가
 
             // 보드 카드 배치 

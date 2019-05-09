@@ -11,7 +11,8 @@ namespace PacketDefine
 {
     public enum PacketType
     {
-        gem = 0,
+        init = 0,
+        gem,
         card,
         turnEnd
     }
@@ -57,6 +58,16 @@ namespace PacketDefine
             return obj;
         }
     }
+    /* 클라이언트 접속 시 */
+    [Serializable]
+    public class Init : Packet
+    {
+        public int playerNum;
+        public Init()
+        {
+            playerNum = 0;
+        }
+    }
 
     /* 보석 선택 시 */
     [Serializable]
@@ -65,6 +76,13 @@ namespace PacketDefine
         public int[] gems = new int[5];            // 선택된 보석
         public Player[] players = new Player[2];   // 플레이어 1, 2 정보
         public ActiveCard activeCard;              // 활성화될 카드 정보
+        public bool[] gemStatus = new bool[2]; // gemStatus[0] : true (이미 보석 선택) / gemStatus[1] : true (유효하지 않은 보석)
+
+        public Gem()
+        {
+            gemStatus[0] = gemStatus[1] = false;
+            activeCard = null;
+        }
     }
 
     /* 카드 구매 시 */
@@ -83,6 +101,7 @@ namespace PacketDefine
         public Player[] players = new Player[2];   // 플레이어 1, 2 정보
         public Board boardInfo;                    // 보드 정보
         public ActiveCard activeCard;              // 활성화될 카드 정보
+        public string winner;                      // 게임 종료 시 승리자 정보
     }
 
 }
