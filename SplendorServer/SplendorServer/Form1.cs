@@ -107,7 +107,7 @@ namespace SplendorServer
 
             TurnEnd msg = new TurnEnd();
             msg.Type = (int)PacketType.turnEnd;
-            msg.chosenNoble = null;
+            msg.chosenNobleID = 0;
             msg.players = gamePlayers;
             msg.boardInfo = board;
             msg.activeCard = null;
@@ -301,9 +301,9 @@ namespace SplendorServer
                                          * 3. 1과 2를 위배하는지 정보를 클라이언트에게 전송
                                          *    서버는 위배하는 즉시 다음 요청 기다림 
                                          *    (Player1 Send)
-                                         * 4. 서버측에서 플레이어 보유하고 있는 보석 정보를 업데이트
+                                         * 4. 서버측에서 플레이어 보유하고 있는 보석 정보를 업데이트 & 현재 보드 업데이트
                                          * 5. 카드 활성화 계산 수행
-                                         * 6. 플레이어1,2에게 플레이어 정보, 카드 활성화 정보 전송
+                                         * 6. 플레이어1,2에게 플레이어 정보, 카드 활성화 정보, 보드 정보(보석이 변경된) 전송
                                          *    (Player1 Send) (Player2 Send)
                                          * 7. 보석을 선택했다고 표시
                                          */
@@ -331,20 +331,22 @@ namespace SplendorServer
                                             break;
                                         }
 
-                                        // 플레이어가 보유하고 있는 보석 정보를 업데이트
+                                        // 플레이어가 보유하고 있는 보석 정보를 업데이트 & 현재 보드 정보 업데이트
                                         for(int i = 0; i < 5; i++)
                                         {
                                             gamePlayers[0].playerGems[i] += m_GemClass.gems[i];
+                                            board.boardGems[i] -= m_GemClass.gems[i];
                                         }
 
                                         // 카드 활성화 여부 함수 호출
                                         activeCard = new ActiveCard();
                                         CardActivate(0); // 0 : player1
 
-                                        // 플레이어1,2에게 플레이어 정보, 카드 활성화 정보 전송
+                                        // 플레이어1,2에게 플레이어 정보, 카드 활성화 정보, 보드 정보(보석이 변경된) 전송
                                         Gem sendStatus = new Gem();
                                         sendStatus.players = gamePlayers;
                                         sendStatus.activeCard = activeCard;
+                                        sendStatus.boardInfo = board;
                                         Packet.Serialize(sendStatus).CopyTo(sendBuffer, 0);
                                         Send(1);
                                         Packet.Serialize(sendStatus).CopyTo(sendBuffer, 0);
@@ -356,76 +358,69 @@ namespace SplendorServer
                                     }
                                 case (int)PacketType.card:
                                     {
+                                        // 클라이언트와 연결할 때 이 부분 없앨지 고민
                                         if (!cardSelected) // 카드 구매 이력 검사
                                         {
                                             this.m_SelectCard = (SelectCard)Packet.Desserialize(this.readBuffer);
 
-                                            try
+                                            WriteLog("카드 선택 패킷 수신");// 로그 출력
+
+                                            // 플레이어 보유 보석에서 카드 비용 제거
+                                            for (int i = 0; i < 5; i++)
                                             {
-                                                WriteLog("카드 선택 패킷 수신");// 로그 출력
-
-                                                // 플레이어 보유 보석에서 카드 비용 제거
-                                                for (int i = 0; i < 5; i++)
-                                                {
-                                                    gamePlayers[0].playerGems[i] =
-                                                        gamePlayers[0].playerGems[i] -
-                                                        m_SelectCard.chosenCard.cardCost[i] + gamePlayers[0].gemSale[0];
-                                                }
-
-                                                // 플레이어1 보유 카드 목록에 추가
-                                                gamePlayers[0].playerCards.Add(m_SelectCard.chosenCard);
-
-                                                // 보드에서 구매한 카드 제거, 덱에서 보드에 새로운 카드 추가
-                                                if (m_SelectCard.chosenCard.cardLevel == 1) // level1
-                                                {
-                                                    int i = 0;
-                                                    while (m_SelectCard.chosenCard.cardID != board.boardCards1[i].cardID)
-                                                    {
-                                                        i++;
-                                                    }
-                                                    board.boardCards1.Remove(board.boardCards1[i]);
-                                                    board.DrawCard(1);
-                                                }
-                                                else if (m_SelectCard.chosenCard.cardLevel == 2) // level2
-                                                {
-                                                    int i = 0;
-                                                    while (m_SelectCard.chosenCard.cardID != board.boardCards2[i].cardID)
-                                                    {
-                                                        i++;
-                                                    }
-                                                    board.boardCards2.Remove(board.boardCards2[i]);
-                                                    board.DrawCard(2);
-                                                }
-                                                else if (m_SelectCard.chosenCard.cardLevel == 3) // level3
-                                                {
-                                                    int i = 0;
-                                                    while (m_SelectCard.chosenCard.cardID != board.boardCards3[i].cardID)
-                                                    {
-                                                        i++;
-                                                    }
-                                                    board.boardCards3.Remove(board.boardCards3[i]);
-                                                    board.DrawCard(3);
-                                                }
-
-                                                cardSelected = true; // 카드 구매이력 수정
-
-                                                TurnEnd te = new TurnEnd();
-
-                                                // TurnEnd 클래스 정보 수정
-                                                te.boardInfo = board;
-                                                te.players = gamePlayers;
-
-                                                // 플레이어에게 전송
-                                                Packet.Serialize(te).CopyTo(this.sendBuffer, 0);
-                                                this.Send(1);
-                                                Packet.Serialize(te).CopyTo(this.sendBuffer, 0);
-                                                this.Send(2);
-
+                                                gamePlayers[0].playerGems[i] =
+                                                    gamePlayers[0].playerGems[i] -
+                                                    m_SelectCard.chosenCard.cardCost[i] + gamePlayers[0].gemSale[0];
                                             }
-                                            catch (Exception ex)
+
+                                            // 플레이어1 보유 카드 목록에 추가
+                                            gamePlayers[0].playerCards.Add(m_SelectCard.chosenCard);
+
+                                            // 보드에서 구매한 카드 제거, 덱에서 보드에 새로운 카드 추가
+                                            if (m_SelectCard.chosenCard.cardLevel == 1) // level1
                                             {
-                                                WriteLog("BeforeSelect error " + ex.Message);
+                                                int i = 0;
+                                                while (m_SelectCard.chosenCard.cardID != board.boardCards1[i].cardID)
+                                                {
+                                                    i++;
+                                                }
+                                                board.boardCards1.Remove(board.boardCards1[i]);
+                                                board.DrawCard(1);
                                             }
+                                            else if (m_SelectCard.chosenCard.cardLevel == 2) // level2
+                                            {
+                                                int i = 0;
+                                                while (m_SelectCard.chosenCard.cardID != board.boardCards2[i].cardID)
+                                                {
+                                                    i++;
+                                                }
+                                                board.boardCards2.Remove(board.boardCards2[i]);
+                                                board.DrawCard(2);
+                                            }
+                                            else if (m_SelectCard.chosenCard.cardLevel == 3) // level3
+                                            {
+                                                int i = 0;
+                                                while (m_SelectCard.chosenCard.cardID != board.boardCards3[i].cardID)
+                                                {
+                                                    i++;
+                                                }
+                                                board.boardCards3.Remove(board.boardCards3[i]);
+                                                board.DrawCard(3);
+                                            }
+
+                                            cardSelected = true; // 카드 구매이력 수정
+
+                                            TurnEnd te = new TurnEnd();
+
+                                            // TurnEnd 클래스 정보 수정
+                                            te.boardInfo = board;
+                                            te.players = gamePlayers;
+
+                                            // 플레이어에게 전송
+                                            Packet.Serialize(te).CopyTo(this.sendBuffer, 0);
+                                            this.Send(1);
+                                            Packet.Serialize(te).CopyTo(this.sendBuffer, 0);
+                                            this.Send(2);
                                         }
                                         break;
                                     }
@@ -450,12 +445,16 @@ namespace SplendorServer
                                                 break;
                                             }
                                         }
+                                        // 카드 활성화 여부 함수 호출
+                                        activeCard = new ActiveCard();
+                                        CardActivate(0); // 0 : player1
 
                                         TurnEnd te = new TurnEnd();
 
                                         //TurnEnd 클래스 정보 수정
                                         te.boardInfo = board;
                                         te.players = gamePlayers;
+                                        te.activeCard = activeCard;
 
                                         // 플레이어에게 전송
                                         Packet.Serialize(te).CopyTo(this.sendBuffer, 0);

@@ -76,6 +76,7 @@ namespace PacketDefine
         public int[] gems = new int[5];            // 선택된 보석
         public Player[] players = new Player[2];   // 플레이어 1, 2 정보
         public ActiveCard activeCard;              // 활성화될 카드 정보
+        public Board boardInfo;                    // 보드 정보
         public bool[] gemStatus = new bool[2]; // gemStatus[0] : true (이미 보석 선택) / gemStatus[1] : true (유효하지 않은 보석)
 
         public Gem()
@@ -97,7 +98,7 @@ namespace PacketDefine
     [Serializable]
     public class TurnEnd : Packet
     {
-        public Noble chosenNoble;                  // 방문한 귀족
+        public int chosenNobleID;                  // 방문한 귀족
         public Player[] players = new Player[2];   // 플레이어 1, 2 정보
         public Board boardInfo;                    // 보드 정보
         public ActiveCard activeCard;              // 활성화될 카드 정보
