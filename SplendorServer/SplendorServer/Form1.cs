@@ -35,8 +35,8 @@ namespace SplendorServer
 
         //public Init m_InitClass;
         public Gem m_GemClass;
-        public SelectCard m_SelectCardClass;
-        public TurnEnd m_TurnEndClass;
+        public SelectCard m_SelectCard;
+        public TurnEnd m_TurnEnd;
 
         // Client and Connect
         public bool m_bConnect1 = false;
@@ -217,7 +217,6 @@ namespace SplendorServer
         public void ServerStart()
         {
             int turn = 1;
-            bool gemCnt = false;
 
             try
             {
@@ -265,9 +264,12 @@ namespace SplendorServer
                     // 클라이언트에게 보드 정보, 각 플레이어 초기 정보 전송
                     GameInit();
 
+                    bool endState = false;
                     // 게임 시작
                     while (m_bConnect1 && m_bConnect2)
                     {
+                        bool gemCnt = false;
+                        bool cardSelected = false;
                         // 플레이어1 턴
                         while (turn == 1)
                         {
@@ -319,7 +321,7 @@ namespace SplendorServer
                                             break;
                                         }
 
-                                        if (GemIsValid())
+                                        if (!GemIsValid())
                                         {
                                             // 보석이 유효하지 않는 경우
                                             Gem sendValid = new Gem();
@@ -354,13 +356,139 @@ namespace SplendorServer
                                     }
                                 case (int)PacketType.card:
                                     {
-                                        // 처리
+                                        if (!cardSelected) // 카드 구매 이력 검사
+                                        {
+                                            this.m_SelectCard = (SelectCard)Packet.Desserialize(this.readBuffer);
+
+                                            try
+                                            {
+                                                WriteLog("카드 선택 패킷 수신");// 로그 출력
+
+                                                // 플레이어 보유 보석에서 카드 비용 제거
+                                                for (int i = 0; i < 5; i++)
+                                                {
+                                                    gamePlayers[0].playerGems[i] =
+                                                        gamePlayers[0].playerGems[i] -
+                                                        m_SelectCard.chosenCard.cardCost[i] + gamePlayers[0].gemSale[0];
+                                                }
+
+                                                // 플레이어1 보유 카드 목록에 추가
+                                                gamePlayers[0].playerCards.Add(m_SelectCard.chosenCard);
+
+                                                // 보드에서 구매한 카드 제거, 덱에서 보드에 새로운 카드 추가
+                                                if (m_SelectCard.chosenCard.cardLevel == 1) // level1
+                                                {
+                                                    int i = 0;
+                                                    while (m_SelectCard.chosenCard.cardID != board.boardCards1[i].cardID)
+                                                    {
+                                                        i++;
+                                                    }
+                                                    board.boardCards1.Remove(board.boardCards1[i]);
+                                                    board.DrawCard(1);
+                                                }
+                                                else if (m_SelectCard.chosenCard.cardLevel == 2) // level2
+                                                {
+                                                    int i = 0;
+                                                    while (m_SelectCard.chosenCard.cardID != board.boardCards2[i].cardID)
+                                                    {
+                                                        i++;
+                                                    }
+                                                    board.boardCards2.Remove(board.boardCards2[i]);
+                                                    board.DrawCard(2);
+                                                }
+                                                else if (m_SelectCard.chosenCard.cardLevel == 3) // level3
+                                                {
+                                                    int i = 0;
+                                                    while (m_SelectCard.chosenCard.cardID != board.boardCards3[i].cardID)
+                                                    {
+                                                        i++;
+                                                    }
+                                                    board.boardCards3.Remove(board.boardCards3[i]);
+                                                    board.DrawCard(3);
+                                                }
+
+                                                cardSelected = true; // 카드 구매이력 수정
+
+                                                TurnEnd te = new TurnEnd();
+
+                                                // TurnEnd 클래스 정보 수정
+                                                te.boardInfo = board;
+                                                te.players = gamePlayers;
+
+                                                // 플레이어에게 전송
+                                                Packet.Serialize(te).CopyTo(this.sendBuffer, 0);
+                                                this.Send(1);
+                                                Packet.Serialize(te).CopyTo(this.sendBuffer, 0);
+                                                this.Send(2);
+
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                WriteLog("BeforeSelect error " + ex.Message);
+                                            }
+                                        }
                                         break;
                                     }
                                 case (int)PacketType.turnEnd:
                                     {
                                         // 처리
-                                        turn = 2;
+                                        foreach (var checkNoble in board.boardNoble) // 보드에 있는 귀족 검사
+                                        {
+                                            int i = 0;
+                                            for (i = 0; i < 5; i++)
+                                            {
+                                                if (checkNoble.nobleCost[i] > gamePlayers[0].gemSale[i]) // 각 보석마다 값 비교
+                                                    break; // 귀족 보석 cost이 더 크면 반복문 벗어남
+                                            }
+                                            if (i == 5) // 구매 가능한 경우
+                                            {
+                                                // 플레이어와 보드의 귀족카드를 업데이트
+                                                gamePlayers[0].playerNoble.Add(checkNoble);
+                                                gamePlayers[0].totalScore += 3;
+                                                board.boardNoble.Remove(checkNoble);
+                                                board.DrawCard(4);
+                                                break;
+                                            }
+                                        }
+
+                                        TurnEnd te = new TurnEnd();
+
+                                        //TurnEnd 클래스 정보 수정
+                                        te.boardInfo = board;
+                                        te.players = gamePlayers;
+
+                                        // 플레이어에게 전송
+                                        Packet.Serialize(te).CopyTo(this.sendBuffer, 0);
+                                        this.Send(1);
+                                        Packet.Serialize(te).CopyTo(this.sendBuffer, 0);
+                                        this.Send(2);
+
+                                        turn = 2; // player2로 턴넘김
+                                        cardSelected = false; // 카드 구매이력 초기화
+                                        endState = true;
+
+                                        /* player2
+                                        if(endState == true){
+                                            if (gamePlayers[0].totalScore > gamePlayers[1].totalScore)
+                                                te.winner = "Player1 WIn!!";
+                                            else (gamePlayers[0].totalScore < gamePlayers[1].totalScore)
+                                                te.winner = "Player2 Win!!";
+                                            else
+                                            {
+                                                if (gamePlayers[0].playerCards.Count < gamePlayers[1].playerCards.Count)
+                                                    te.winner = "Player1 WIn!!";
+                                                else if (gamePlayers[0].playerCards.Count > gamePlayers[1].playerCards.Count)
+                                                    te.winner = "Player2 Win!";
+                                                else
+                                                    te.winner = "Draw!";
+                                            }
+
+                                            m_stream1.Read(readBuffer, 0, 1024 * 4);
+                                            m_stream2.Read(readBuffer, 0, 1024 * 4);
+                                            ServerStop();
+                                        }
+                                        */
+
                                         break;
                                     }
                             }
