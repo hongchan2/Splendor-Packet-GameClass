@@ -3,3 +3,4 @@ C:\coding project\Splendor\SplendorServer\GameClassDefine\bin\Debug\GameClassDef
 C:\coding project\Splendor\SplendorServer\GameClassDefine\obj\Debug\GameClassDefine.csproj.CoreCompileInputs.cache
 C:\coding project\Splendor\SplendorServer\GameClassDefine\obj\Debug\GameClassDefine.dll
 C:\coding project\Splendor\SplendorServer\GameClassDefine\obj\Debug\GameClassDefine.pdb
+C:\coding project\Splendor\SplendorServer\GameClassDefine\obj\Debug\GameClassDefine.csprojAssemblyReference.cache

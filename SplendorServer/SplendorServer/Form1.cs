@@ -30,8 +30,8 @@ namespace SplendorServer
         // Server Packet
         public NetworkStream m_stream1;
         public NetworkStream m_stream2;
-        private byte[] sendBuffer = new byte[1024 * 4];
-        private byte[] readBuffer = new byte[1024 * 4];
+        private byte[] sendBuffer = new byte[Packet.PACKET_SIZE];
+        private byte[] readBuffer = new byte[Packet.PACKET_SIZE];
 
         //public Init m_InitClass;
         public Gem m_GemClass;
@@ -92,7 +92,7 @@ namespace SplendorServer
                 m_stream2.Flush();
             }
 
-            for (int i = 0; i < 1024 * 4; i++)
+            for (int i = 0; i < Packet.PACKET_SIZE; i++)
             {
                 sendBuffer[i] = 0;
             }
@@ -112,6 +112,7 @@ namespace SplendorServer
             msg.boardInfo = board;
             msg.activeCard = null;
 
+            WriteLog("플레이어들에게 초기 보드 정보, 플레이어 정보 전송");
             Packet.Serialize(msg).CopyTo(sendBuffer, 0);
             Send(1);
             Packet.Serialize(msg).CopyTo(sendBuffer, 0);
@@ -275,7 +276,7 @@ namespace SplendorServer
                         {
                             try
                             {
-                                m_stream1.Read(readBuffer, 0, 1024 * 4);
+                                m_stream1.Read(readBuffer, 0, Packet.PACKET_SIZE);
                             }
                             catch
                             {
@@ -296,13 +297,13 @@ namespace SplendorServer
                                 case (int)PacketType.gem:
                                     {
                                         /*
-                                         * 1. 보석을 이미 선택했는지 검사
-                                         * 2. 플레이어가 선택한 보석이 유효한지 검사
-                                         * 3. 1과 2를 위배하는지 정보를 클라이언트에게 전송
+                                         * 1. 보석을 이미 선택했는지 검사                               - gemCnt
+                                         * 2. 플레이어가 선택한 보석이 유효한지 검사                    - GemIsVaild()
+                                         * 3. 1과 2를 위배한다면 상태 값을 변경해 클라이언트에게 전송   - (Player1 Send)
                                          *    서버는 위배하는 즉시 다음 요청 기다림 
-                                         *    (Player1 Send)
+                                         *    
                                          * 4. 서버측에서 플레이어 보유하고 있는 보석 정보를 업데이트 & 현재 보드 업데이트
-                                         * 5. 카드 활성화 계산 수행
+                                         * 5. 카드 활성화 계산 수행                                     - CardActivate()
                                          * 6. 플레이어1,2에게 플레이어 정보, 카드 활성화 정보, 보드 정보(보석이 변경된) 전송
                                          *    (Player1 Send) (Player2 Send)
                                          * 7. 보석을 선택했다고 표시
@@ -482,8 +483,8 @@ namespace SplendorServer
                                                     te.winner = "Draw!";
                                             }
 
-                                            m_stream1.Read(readBuffer, 0, 1024 * 4);
-                                            m_stream2.Read(readBuffer, 0, 1024 * 4);
+                                            m_stream1.Read(readBuffer, 0, Packet.PACKET_SIZE);
+                                            m_stream2.Read(readBuffer, 0, Packet.PACKET_SIZE);
                                             ServerStop();
                                         }
                                         */
