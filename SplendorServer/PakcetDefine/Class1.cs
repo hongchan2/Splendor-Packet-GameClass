@@ -94,12 +94,14 @@ namespace PacketDefine
     [Serializable]
     public class TurnEnd : Packet
     {
-        public int chosenNobleID;                  // 방문한 귀족
+        public int[] chosenGems = new int[5];      // 가져간 보석 (상대방 애니메이션 효과를 위해)
+        public int chosenCardID;                   // 가져간 카드 (상대방 애니메이션 효과를 위해)
+        public int chosenDeck;                     // 가져간 카드 레벨 (상대방 애니메이션 효과를 위해)
+        public int chosenNobleID;                  // 방문한 귀족 (애니메이션 효과를 위해)
         public Player[] players = new Player[2];   // 플레이어 1, 2 정보
         public Board boardInfo;                    // 보드 정보
         public ActiveCard activeCard;              // 활성화될 카드 정보
         public int winner;                         // 0 : 게임 진행 / 1 : Player1 승리 / 2 : Player2 승리
         public int turnPlayer;                     // 1 : Player1 / 2 : Player2
     }
-
 }

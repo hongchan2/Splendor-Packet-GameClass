@@ -53,15 +53,6 @@ namespace GameClassDefine
             nobleCost[3] = cost3;
             nobleCost[4] = cost4;
         }
-
-        public int GetNoble()
-        {
-            return nobleID;
-        }
-        public int[] GetNobleCost()
-        {
-            return nobleCost;
-        }
     }
 
     [Serializable]
