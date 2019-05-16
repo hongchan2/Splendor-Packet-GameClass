@@ -26,7 +26,6 @@ namespace PacketDefine
     [Serializable]
     public class Packet
     {
-        public const int PACKET_SIZE = 1024 * 20;
         public int Length;
         public int Type;
 
@@ -38,7 +37,7 @@ namespace PacketDefine
 
         public static byte[] Serialize(Object o)
         {
-            MemoryStream ms = new MemoryStream(Packet.PACKET_SIZE);
+            MemoryStream ms = new MemoryStream(1024 * 20);
             BinaryFormatter bf = new BinaryFormatter();
             bf.Serialize(ms, o);
             return ms.ToArray();
@@ -46,7 +45,7 @@ namespace PacketDefine
 
         public static Object Desserialize(byte[] bt)
         {
-            MemoryStream ms = new MemoryStream(Packet.PACKET_SIZE);
+            MemoryStream ms = new MemoryStream(1024 * 20);
             foreach (byte b in bt)
             {
                 ms.WriteByte(b);

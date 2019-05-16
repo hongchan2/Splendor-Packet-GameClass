@@ -13,7 +13,11 @@ namespace GameClassDefine
         3 : 사파이어(마린)
         4 : 에메랄드
     */
-
+    /*
+    static class{
+        public const int PACKET_SIZE = 1024 * 20;
+    }
+    */
     [Serializable]
     public class Card
     {

@@ -30,8 +30,8 @@ namespace SplendorServer
         // Server Packet
         public NetworkStream m_stream1;
         public NetworkStream m_stream2;
-        private byte[] sendBuffer = new byte[Packet.PACKET_SIZE];
-        private byte[] readBuffer = new byte[Packet.PACKET_SIZE];
+        private byte[] sendBuffer = new byte[1024 * 20];
+        private byte[] readBuffer = new byte[1024 * 20];
 
         //public Init m_InitClass;
         public Gem m_GemClass;
@@ -92,7 +92,7 @@ namespace SplendorServer
                 m_stream2.Flush();
             }
 
-            for (int i = 0; i < Packet.PACKET_SIZE; i++)
+            for (int i = 0; i < 1024 * 20; i++)
             {
                 sendBuffer[i] = 0;
             }
@@ -366,13 +366,12 @@ namespace SplendorServer
                     // 게임 시작
                     while (m_bConnect1 && m_bConnect2)
                     {
-                        bool cardSelected = false;
                         // 플레이어1 턴
                         while (turn == 1)
                         {
                             try
                             {
-                                m_stream1.Read(readBuffer, 0, Packet.PACKET_SIZE);
+                                m_stream1.Read(readBuffer, 0, 1024 * 20);
                             }
                             catch
                             {
@@ -549,8 +548,8 @@ namespace SplendorServer
                                                     te.winner = "Draw!";
                                             }
 
-                                            m_stream1.Read(readBuffer, 0, Packet.PACKET_SIZE);
-                                            m_stream2.Read(readBuffer, 0, Packet.PACKET_SIZE);
+                                            m_stream1.Read(readBuffer, 0, 1024 * 20);
+                                            m_stream2.Read(readBuffer, 0, 1024 * 20);
                                             ServerStop();
                                         }
                                         */
