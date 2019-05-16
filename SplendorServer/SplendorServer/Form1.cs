@@ -113,6 +113,7 @@ namespace SplendorServer
             msg.activeCard = null;
 
             WriteLog("플레이어들에게 초기 보드 정보, 플레이어 정보 전송");
+
             Packet.Serialize(msg).CopyTo(sendBuffer, 0);
             Send(1);
             Packet.Serialize(msg).CopyTo(sendBuffer, 0);
@@ -269,7 +270,6 @@ namespace SplendorServer
                     // 게임 시작
                     while (m_bConnect1 && m_bConnect2)
                     {
-                        bool gemCnt = false;
                         bool cardSelected = false;
                         // 플레이어1 턴
                         while (turn == 1)
@@ -297,39 +297,36 @@ namespace SplendorServer
                                 case (int)PacketType.gem:
                                     {
                                         /*
-                                         * 1. 보석을 이미 선택했는지 검사                               - gemCnt
-                                         * 2. 플레이어가 선택한 보석이 유효한지 검사                    - GemIsVaild()
-                                         * 3. 1과 2를 위배한다면 상태 값을 변경해 클라이언트에게 전송   - (Player1 Send)
+                                         * 1. 플레이어가 선택한 보석이 유효한지 검사                    - GemIsVaild()
+                                         * 2. 1을 위배한다면 상태 값을 변경해 클라이언트에게 전송       - (Player1 Send)
                                          *    서버는 위배하는 즉시 다음 요청 기다림 
                                          *    
-                                         * 4. 서버측에서 플레이어 보유하고 있는 보석 정보를 업데이트 & 현재 보드 업데이트
-                                         * 5. 카드 활성화 계산 수행                                     - CardActivate()
-                                         * 6. 플레이어1,2에게 플레이어 정보, 카드 활성화 정보, 보드 정보(보석이 변경된) 전송
+                                         * 3. 서버측에서 플레이어 보유하고 있는 보석 정보를 업데이트 & 현재 보드 업데이트
+                                         * 4. 카드 활성화 계산 수행                                     - CardActivate()
+                                         * 5. 플레이어1,2에게 플레이어 정보, 카드 활성화 정보, 보드 정보(보석이 변경된) 전송
                                          *    (Player1 Send) (Player2 Send)
-                                         * 7. 보석을 선택했다고 표시
+                                         * 6. 보석을 선택했다고 표시
                                          */
 
                                         m_GemClass = (Gem)Packet.Desserialize(readBuffer);
                                         WriteLog("Player1 보석 선택");
 
-                                        if (gemCnt)
-                                        {
-                                            // 보석을 이미 선택한 경우 - 이 검사를 클라이언트에서 수행?!
-                                            Gem sendAlready = new Gem();
-                                            sendAlready.gemStatus[0] = true;
-                                            Packet.Serialize(sendAlready).CopyTo(sendBuffer, 0);
-                                            Send(1);
-                                            break;
-                                        }
-
                                         if (!GemIsValid())
                                         {
                                             // 보석이 유효하지 않는 경우
-                                            Gem sendValid = new Gem();
-                                            sendValid.gemStatus[1] = true;
-                                            Packet.Serialize(sendValid).CopyTo(sendBuffer, 0);
+                                            Gem sendInValid = new Gem();
+                                            sendInValid.gemStatus = true;
+                                            Packet.Serialize(sendInValid).CopyTo(sendBuffer, 0);
                                             Send(1);
                                             break;
+                                        }
+                                        else
+                                        {
+                                            // 보석이 유효한 경우
+                                            Gem sendValid = new Gem();
+                                            sendValid.gemStatus = false;
+                                            Packet.Serialize(sendValid).CopyTo(sendBuffer, 0);
+                                            Send(1);
                                         }
 
                                         // 플레이어가 보유하고 있는 보석 정보를 업데이트 & 현재 보드 정보 업데이트
@@ -339,22 +336,25 @@ namespace SplendorServer
                                             board.boardGems[i] -= m_GemClass.gems[i];
                                         }
 
-                                        // 카드 활성화 여부 함수 호출
                                         activeCard = new ActiveCard();
-                                        CardActivate(0); // 0 : player1
-
-                                        // 플레이어1,2에게 플레이어 정보, 카드 활성화 정보, 보드 정보(보석이 변경된) 전송
-                                        Gem sendStatus = new Gem();
+                                        CardActivate(1); // 1 : player2 (상대방의 카드 활성화 수행)
+                                        
+                                        // 플레이어1,2에게 TurnEnd 패킷 전송
+                                        TurnEnd sendStatus = new TurnEnd();
+                                        // 귀족검사 및 추가!!
                                         sendStatus.players = gamePlayers;
-                                        sendStatus.activeCard = activeCard;
                                         sendStatus.boardInfo = board;
+                                        sendStatus.activeCard = null;
+                                        sendStatus.winner = 0;
+                                        sendStatus.turnPlayer = 2;
+                                        
                                         Packet.Serialize(sendStatus).CopyTo(sendBuffer, 0);
                                         Send(1);
+
+                                        sendStatus.activeCard = activeCard;     // 상대방 플레이어 카드 활성화 전송
                                         Packet.Serialize(sendStatus).CopyTo(sendBuffer, 0);
                                         Send(2);
 
-                                        // 보석을 선택했다고 표시
-                                        gemCnt = true;
                                         break;
                                     }
                                 case (int)PacketType.card:
@@ -493,7 +493,6 @@ namespace SplendorServer
                                     }
                             }
                         }
-                        gemCnt = false;
 
                         // 플레이어2 턴
 

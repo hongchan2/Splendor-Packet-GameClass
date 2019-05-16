@@ -14,6 +14,7 @@ namespace GameClassDefine
         4 : 에메랄드
     */
 
+    [Serializable]
     public class Card
     {
         public int cardID;                     // 카드 식별자
@@ -21,6 +22,7 @@ namespace GameClassDefine
         public int cardScore;                  // 카드 점수
         public int cardLevel;                  // 카드 레벨
         public int cardGem;                    // 카드 보석(할인)
+        public bool active;                    // 카드 활성화 정보
 
         public Card(int id, int cost0, int cost1, int cost2, int cost3, int cost4, int score, int level, int gem)
         {
@@ -36,6 +38,7 @@ namespace GameClassDefine
         }
     }
 
+    [Serializable]
     public class Noble
     {
         public int nobleID;                           // 귀족카드 식별자
@@ -61,6 +64,7 @@ namespace GameClassDefine
         }
     }
 
+    [Serializable]
     public class Player
     {
         public int totalScore;                 // 총점수
@@ -80,6 +84,7 @@ namespace GameClassDefine
         }
     }
 
+    [Serializable]
     public class ActiveCard
     {
         public bool[] activeCards1 = { false, false, false, false };
@@ -87,6 +92,7 @@ namespace GameClassDefine
         public bool[] activeCards3 = { false, false, false, false };
     }
 
+    [Serializable]
     public class Board
     {
         public List<Card> boardCards1 = new List<Card>();      // 보드에 있는 레벨1 카드 (4개)

@@ -75,15 +75,11 @@ namespace PacketDefine
     public class Gem : Packet
     {
         public int[] gems = new int[5];            // 선택된 보석
-        public Player[] players = new Player[2];   // 플레이어 1, 2 정보
-        public ActiveCard activeCard;              // 활성화될 카드 정보
-        public Board boardInfo;                    // 보드 정보
-        public bool[] gemStatus = new bool[2]; // gemStatus[0] : true (이미 보석 선택) / gemStatus[1] : true (유효하지 않은 보석)
+        public bool gemStatus;                     // true = 유효하지 않은 값
 
         public Gem()
         {
-            gemStatus[0] = gemStatus[1] = false;
-            activeCard = null;
+            gemStatus = false;
         }
     }
 
@@ -92,7 +88,6 @@ namespace PacketDefine
     public class SelectCard : Packet
     {
         public Card chosenCard;                    // 구매한 카드
-        public Player[] players = new Player[2];   // 플레이어 1, 2 정보
     }
 
     /* 턴 종료 시 + 초기 화면 설정 */
@@ -103,7 +98,8 @@ namespace PacketDefine
         public Player[] players = new Player[2];   // 플레이어 1, 2 정보
         public Board boardInfo;                    // 보드 정보
         public ActiveCard activeCard;              // 활성화될 카드 정보
-        public string winner;                      // 게임 종료 시 승리자 정보
+        public int winner;                         // 0 : 게임 진행 / 1 : Player1 승리 / 2 : Player2 승리
+        public int turnPlayer;                     // 1 : Player1 / 2 : Player2
     }
 
 }
