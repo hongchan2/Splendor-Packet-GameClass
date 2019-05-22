@@ -146,6 +146,7 @@ namespace SplendorServer
             board = new Board();
             gamePlayers[0] = new Player();
             gamePlayers[1] = new Player();
+            activeCard = new ActiveCard();
 
             TurnEnd msg = new TurnEnd();
             msg.Type = (int)PacketType.turnEnd;
@@ -156,7 +157,7 @@ namespace SplendorServer
             msg.chosenNobleID = -1;
             msg.players = gamePlayers;
             msg.boardInfo = board;
-            msg.activeCard = null;
+            msg.activeCard = activeCard;
             msg.winner = 0;
             msg.turnPlayer = 1;     // 플레이어1 먼저 수행하도록
 
@@ -196,15 +197,11 @@ namespace SplendorServer
                     return false;
                 }
             }
-            
-            // 3 - false, 0 - true ======> false
-            /*
-            if (gemCnt != 3 || twoGemCnt != 1)
-                return false;
-                */
 
+            /*
             WriteLog("gemCnt : " + gemCnt);
             WriteLog("twoGemCnt : " + twoGemCnt);
+            */
 
             if ((gemCnt == 3 && twoGemCnt == 0) || (gemCnt == 0 && twoGemCnt == 1))
                 return true;
