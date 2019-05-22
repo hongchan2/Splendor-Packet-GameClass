@@ -14,7 +14,9 @@ namespace PacketDefine
         init = 0,
         gem,
         card,
-        turnEnd
+        turnEnd,
+        restart,
+        end
     }
 
     public enum PacketSendERROR

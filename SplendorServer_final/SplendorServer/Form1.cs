@@ -46,7 +46,7 @@ namespace SplendorServer
 
         // Board Info
         Player[] gamePlayers = new Player[2];       // 현재 플레이어 상태(0 - 플레이어1, 1- 플레이어2)
-        Board board = new Board();                  // 현재 보드 상태
+        Board board = null;                         // 현재 보드 상태
         ActiveCard activeCard;                      // 카드 활성화 상태
         public int turn = 1;                        // 현재 턴을 저장
 
@@ -143,6 +143,7 @@ namespace SplendorServer
              * 1. 클라이언트에게 보드 정보, 플레이어 초기 정보 (Turn End 타입) 전송
              *    (Player1 Send) (Player2 Send)
              */
+            board = new Board();
             gamePlayers[0] = new Player();
             gamePlayers[1] = new Player();
 
@@ -169,41 +170,46 @@ namespace SplendorServer
 
         public bool GemIsValid()
         {
-            int[] selectedGems = m_GemClass.gems;
-            bool returnValue = true;
             int gemCnt = 0;
             int twoGemCnt = 0;
 
             for(int i = 0; i < 5; i++)
             {
-                if (selectedGems[i] == 1)
+                if (m_GemClass.gems[i] == 1)
                     gemCnt++;
-
                 // 하나의 보석을 두 개 가져온 경우
-                if (selectedGems[i] == 2)
+                else if (m_GemClass.gems[i] == 2)
                 {
-                    if(board.boardGems[i] < 4)
+                    if (board.boardGems[i] < 4)
                     {
                         // 위배 - 보석이 4개 이하인 경우
-                        returnValue = false;
-                        break;
+                        return false;
                     }
                     else
                     {
                         twoGemCnt++;
                     }
                 }
-
                 // 위배 - 하나의 보석을 세 개 이상 가져온 경우
-                if (selectedGems[i] > 2)
-                    returnValue = false;
-                
+                else if (m_GemClass.gems[i] > 2)
+                {
+                    return false;
+                }
             }
-
+            
+            // 3 - false, 0 - true ======> false
+            /*
             if (gemCnt != 3 || twoGemCnt != 1)
-                returnValue = false;
+                return false;
+                */
 
-            return returnValue;
+            WriteLog("gemCnt : " + gemCnt);
+            WriteLog("twoGemCnt : " + twoGemCnt);
+
+            if ((gemCnt == 3 && twoGemCnt == 0) || (gemCnt == 0 && twoGemCnt == 1))
+                return true;
+            else
+                return false;
         }
 
         void CardActivate()
@@ -434,10 +440,11 @@ namespace SplendorServer
                 m_server.Start();
 
                 m_bStop = true;
-                WriteLog("Player 접속 대기중...");
-
+                
                 while (m_bStop)
                 {
+                    WriteLog("Player 접속 대기중...");
+
                     Init init = new Init();
 
                     // 플레이어 1 연결
@@ -514,6 +521,14 @@ namespace SplendorServer
 
                                         m_GemClass = (Gem)Packet.Desserialize(readBuffer);
                                         WriteLog("Player" + turn  + " - 보석 선택");
+
+                                        /*
+                                        WriteLog("선택한 보석");
+                                        for(int i = 0; i < 5; i++)
+                                        {
+                                            WriteLog(m_GemClass.gems[i].ToString());
+                                        }
+                                        */
 
                                         if (!GemIsValid())
                                         {
@@ -628,6 +643,51 @@ namespace SplendorServer
 
                                         break;
                                     }
+                            }
+
+                            if (checkWinner() != 0 && turn == 1)
+                            {
+                                // 종료 조건 만족 시
+
+                                ReadStream(1);
+                                Packet packet1 = (Packet)Packet.Desserialize(readBuffer);
+                                int type1 = (int)packet1.Type;
+
+                                ReadStream(2);
+                                Packet packet2 = (Packet)Packet.Desserialize(readBuffer);
+                                int type2 = (int)packet2.Type;
+
+                                if (type1 == (int)PacketType.restart && type2 == (int)PacketType.restart)
+                                {
+                                    // 게임 재시작
+                                    WriteLog("게임 재시작");
+
+                                    packet1.Type = (int)PacketType.restart;
+                                    Packet.Serialize(packet1).CopyTo(sendBuffer, 0);
+                                    Send(1);
+                                    Packet.Serialize(packet1).CopyTo(sendBuffer, 0);
+                                    Send(2);
+                                    GameInit();
+                                }
+                                else if (type1 == (int)PacketType.end || type2 == (int)PacketType.end)
+                                {
+                                    // 게임 종료
+                                    WriteLog("클라이언트 종료");
+
+                                    packet1.Type = (int)PacketType.end;
+                                    Packet.Serialize(packet1).CopyTo(sendBuffer, 0);
+                                    Send(1);
+                                    Packet.Serialize(packet1).CopyTo(sendBuffer, 0);
+                                    Send(2);
+
+                                    m_bConnect1 = false;
+                                    m_bConnect2 = false;
+
+                                    m_stream1.Close();
+                                    m_stream2.Close();
+
+                                    break;
+                                }
                             }
                         }
                     }
