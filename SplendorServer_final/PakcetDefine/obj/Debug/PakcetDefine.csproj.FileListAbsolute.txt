@@ -1,0 +1,9 @@
+C:\coding project\Splendor\SplendorServer\PakcetDefine\bin\Debug\PakcetDefine.dll
+C:\coding project\Splendor\SplendorServer\PakcetDefine\bin\Debug\PakcetDefine.pdb
+C:\coding project\Splendor\SplendorServer\PakcetDefine\bin\Debug\GameClassDefine.dll
+C:\coding project\Splendor\SplendorServer\PakcetDefine\bin\Debug\GameClassDefine.pdb
+C:\coding project\Splendor\SplendorServer\PakcetDefine\obj\Debug\PakcetDefine.csprojAssemblyReference.cache
+C:\coding project\Splendor\SplendorServer\PakcetDefine\obj\Debug\PakcetDefine.csproj.CoreCompileInputs.cache
+C:\coding project\Splendor\SplendorServer\PakcetDefine\obj\Debug\PakcetDefine.csproj.CopyComplete
+C:\coding project\Splendor\SplendorServer\PakcetDefine\obj\Debug\PakcetDefine.dll
+C:\coding project\Splendor\SplendorServer\PakcetDefine\obj\Debug\PakcetDefine.pdb
