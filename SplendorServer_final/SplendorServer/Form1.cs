@@ -426,8 +426,6 @@ namespace SplendorServer
 
         public void ServerStart()
         {
-            
-
             try
             {
                 IPAddress ipAddr = IPAddress.Parse(IP);
@@ -524,7 +522,7 @@ namespace SplendorServer
                                             Gem sendInValid = new Gem();
                                             sendInValid.Type = (int)PacketType.gem;
 
-                                            sendInValid.gemStatus = true;
+                                            sendInValid.gemStatus = false;
                                             Packet.Serialize(sendInValid).CopyTo(sendBuffer, 0);
                                             Send(turn);
                                             break;
@@ -535,7 +533,7 @@ namespace SplendorServer
                                             Gem sendValid = new Gem();
                                             sendValid.Type = (int)PacketType.gem;
 
-                                            sendValid.gemStatus = false;
+                                            sendValid.gemStatus = true;
                                             Packet.Serialize(sendValid).CopyTo(sendBuffer, 0);
                                             Send(turn);
                                         }

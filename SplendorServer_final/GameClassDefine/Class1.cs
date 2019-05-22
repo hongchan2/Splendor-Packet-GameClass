@@ -14,7 +14,7 @@ namespace GameClassDefine
         4 : 에메랄드
     */
     /*
-    static class{
+    static class PacketSize{
         public const int PACKET_SIZE = 1024 * 20;
     }
     */

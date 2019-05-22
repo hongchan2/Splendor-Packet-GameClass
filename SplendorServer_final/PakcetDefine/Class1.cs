@@ -78,7 +78,7 @@ namespace PacketDefine
 
         public Gem()
         {
-            gemStatus = false;
+            gemStatus = true;
         }
     }
 
