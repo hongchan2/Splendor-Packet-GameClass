@@ -9,6 +9,11 @@ using GameClassDefine;
 
 namespace PacketDefine
 {
+    public static class Constant
+    {
+        public const int PACKET_SIZE = 1024 * 20;
+    }
+
     public enum PacketType
     {
         init = 0,
@@ -39,7 +44,7 @@ namespace PacketDefine
 
         public static byte[] Serialize(Object o)
         {
-            MemoryStream ms = new MemoryStream(1024 * 20);
+            MemoryStream ms = new MemoryStream(Constant.PACKET_SIZE);
             BinaryFormatter bf = new BinaryFormatter();
             bf.Serialize(ms, o);
             return ms.ToArray();
@@ -47,7 +52,7 @@ namespace PacketDefine
 
         public static Object Desserialize(byte[] bt)
         {
-            MemoryStream ms = new MemoryStream(1024 * 20);
+            MemoryStream ms = new MemoryStream(Constant.PACKET_SIZE);
             foreach (byte b in bt)
             {
                 ms.WriteByte(b);

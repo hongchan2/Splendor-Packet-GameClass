@@ -30,8 +30,8 @@ namespace SplendorServer
         // Server Packet
         public NetworkStream m_stream1;
         public NetworkStream m_stream2;
-        private byte[] sendBuffer = new byte[1024 * 20];
-        private byte[] readBuffer = new byte[1024 * 20];
+        private byte[] sendBuffer = new byte[Constant.PACKET_SIZE];
+        private byte[] readBuffer = new byte[Constant.PACKET_SIZE];
 
         //public Init m_InitClass;
         public Gem m_GemClass;
@@ -91,7 +91,7 @@ namespace SplendorServer
                 m_stream2.Flush();
             }
 
-            for (int i = 0; i < 1024 * 20; i++)
+            for (int i = 0; i < Constant.PACKET_SIZE; i++)
             {
                 sendBuffer[i] = 0;
             }
@@ -100,16 +100,18 @@ namespace SplendorServer
         public void ReadStream(int num)
         {
             if(num == 1)
-                m_stream1.Read(readBuffer, 0, 1024 * 20);
+                m_stream1.Read(readBuffer, 0, Constant.PACKET_SIZE);
             else if(num == 2)
-                m_stream2.Read(readBuffer, 0, 1024 * 20);
+                m_stream2.Read(readBuffer, 0, Constant.PACKET_SIZE);
         }
 
-        public void SendAndTrunEnd(TurnEnd te, int turn)
+        public void SendAndTrunEnd(TurnEnd te)
         {
             if (turn == 1)
             {
                 // Player 1
+                te.turnPlayer = 2;
+                turn = 2;
 
                 Packet.Serialize(te).CopyTo(sendBuffer, 0);
                 Send(1);
@@ -118,12 +120,12 @@ namespace SplendorServer
                 te.activeCard = activeCard;
                 Packet.Serialize(te).CopyTo(sendBuffer, 0);
                 Send(2);
-
-                turn = 2;
             }
             else if (turn == 2)
             {
                 // Player 2
+                te.turnPlayer = 1;
+                turn = 1;
 
                 Packet.Serialize(te).CopyTo(sendBuffer, 0);
                 Send(2);
@@ -132,8 +134,6 @@ namespace SplendorServer
                 te.activeCard = activeCard;
                 Packet.Serialize(te).CopyTo(sendBuffer, 0);
                 Send(1);
-
-                turn = 1;
             }
         }
 
@@ -177,13 +177,16 @@ namespace SplendorServer
             for(int i = 0; i < 5; i++)
             {
                 if (m_GemClass.gems[i] == 1)
+                {
                     gemCnt++;
+                }
                 // 하나의 보석을 두 개 가져온 경우
                 else if (m_GemClass.gems[i] == 2)
                 {
                     if (board.boardGems[i] < 4)
                     {
                         // 위배 - 보석이 4개 이하인 경우
+                        WriteLog("보석 유효하지 않음 [보드에 보석이 4개 이하이므로 2개를 가져올 수 없음]");
                         return false;
                     }
                     else
@@ -194,6 +197,7 @@ namespace SplendorServer
                 // 위배 - 하나의 보석을 세 개 이상 가져온 경우
                 else if (m_GemClass.gems[i] > 2)
                 {
+                    WriteLog("보석 유효하지 않음. [하나의 보석을 3개 가져옴]");
                     return false;
                 }
             }
@@ -203,8 +207,34 @@ namespace SplendorServer
             WriteLog("twoGemCnt : " + twoGemCnt);
             */
 
-            if ((gemCnt == 3 && twoGemCnt == 0) || (gemCnt == 0 && twoGemCnt == 1))
+            if ((gemCnt == 3) && (twoGemCnt == 0))
+            {
+                // 유효한 케이스 1
+                for(int i = 0; i < 5; i++)
+                {
+                    // 현재 보드에서 보석을 가져올 수 있는지 검사
+                    if ((m_GemClass.gems[i]) == 1 && (board.boardGems[i] < 1))
+                    {
+                        WriteLog("보석 유효하지 않음. [보드의 보석이 부족]");
+                        return false;
+                    }
+                }
                 return true;
+            }
+            else if((gemCnt == 0) && (twoGemCnt == 1))
+            {
+                // 유효한 케이스 2
+                for (int i = 0; i < 5; i++)
+                {
+                    // 현재 보드에서 보석을 가져올 수 있는지 검사
+                    if ((m_GemClass.gems[i]) == 2 && (board.boardGems[i] < 2))
+                    {
+                        WriteLog("보석 유효하지 않음. [보드의 보석이 부족]");
+                        return false;
+                    }
+                }
+                return true;
+            }
             else
                 return false;
         }
@@ -335,7 +365,7 @@ namespace SplendorServer
                 {
                     gamePlayers[playerNum].playerGems[n] =
                         gamePlayers[playerNum].playerGems[n] -
-                        (board.boardCards1[n].cardCost[n] - gamePlayers[playerNum].gemSale[playerNum]);
+                        (board.boardCards1[i].cardCost[n] - gamePlayers[playerNum].gemSale[n]);
                 }
                 // 플레이어1 보유 카드 목록에 추가
                 gamePlayers[playerNum].playerCards.Add(board.boardCards1[i]);
@@ -358,7 +388,7 @@ namespace SplendorServer
                 {
                     gamePlayers[playerNum].playerGems[n] =
                         gamePlayers[playerNum].playerGems[n] -
-                        (board.boardCards2[n].cardCost[n] - gamePlayers[playerNum].gemSale[playerNum]);
+                        (board.boardCards2[i].cardCost[n] - gamePlayers[playerNum].gemSale[n]);
                 }
                 // 플레이어1 보유 카드 목록에 추가
                 gamePlayers[playerNum].playerCards.Add(board.boardCards2[i]);
@@ -381,7 +411,7 @@ namespace SplendorServer
                 {
                     gamePlayers[playerNum].playerGems[n] =
                         gamePlayers[playerNum].playerGems[n] -
-                        (board.boardCards3[n].cardCost[n] - gamePlayers[playerNum].gemSale[playerNum]);
+                        (board.boardCards3[i].cardCost[n] - gamePlayers[playerNum].gemSale[n]);
                 }
                 // 플레이어1 보유 카드 목록에 추가
                 gamePlayers[playerNum].playerCards.Add(board.boardCards3[i]);
@@ -577,12 +607,11 @@ namespace SplendorServer
                                         sendStatus.boardInfo = board;
                                         sendStatus.activeCard = null;
                                         sendStatus.winner = winnerNum;
-                                        sendStatus.turnPlayer = 2;
 
                                         WriteLog("Player" + turn + " - 턴 종료");
 
                                         // 데이터 전송 및 턴 변경
-                                        SendAndTrunEnd(sendStatus, turn);
+                                        SendAndTrunEnd(sendStatus);
                                         
                                         break;
                                     }
@@ -633,10 +662,9 @@ namespace SplendorServer
                                         te.boardInfo = board;
                                         te.activeCard = null;
                                         te.winner = winnerNum;
-                                        te.turnPlayer = 2;
 
                                         // 데이터 전송 및 턴 변경
-                                        SendAndTrunEnd(te, turn);
+                                        SendAndTrunEnd(te);
 
                                         break;
                                     }
