@@ -7,16 +7,18 @@ using System.Threading.Tasks;
 namespace GameClassDefine
 {
     /*
-        0 : 오팔
-        1 : 다이아
-        2 : 루비
-        3 : 사파이어(마린)
-        4 : 에메랄드
-    */
-    /*
-    static class PacketSize{
-        public const int PACKET_SIZE = 1024 * 20;
-    }
+     * 0 : 초콜렛(검)
+     * 1 : 사파이어(파)
+     * 2 : 에메랄드(초)
+     * 3 : 루비(빨)
+     * 4 : 다이아(흰)
+     * 
+     *   <이전 순서>
+        0 : 초콜렛(검)
+        1 : 다이아(흰)
+        2 : 루비(빨)
+        3 : 사파이어(파)
+        4 : 에메랄드(초)
     */
     [Serializable]
     public class Card
@@ -162,41 +164,41 @@ namespace GameClassDefine
             deckCards1.Add(new Card(cardID++, 0, 2, 1, 2, 0, 0, 1, 0));
             deckCards1.Add(new Card(cardID++, 0, 0, 0, 4, 0, 1, 1, 0));
 
-            deckCards1.Add(new Card(cardID++, 2, 1, 0, 0, 0, 0, 1, 1));
-            deckCards1.Add(new Card(cardID++, 1, 1, 2, 0, 1, 0, 1, 1));
-            deckCards1.Add(new Card(cardID++, 1, 1, 1, 0, 1, 0, 1, 1));
-            deckCards1.Add(new Card(cardID++, 0, 0, 1, 1, 3, 0, 1, 1));
-            deckCards1.Add(new Card(cardID++, 3, 0, 0, 0, 0, 0, 1, 1));
-            deckCards1.Add(new Card(cardID++, 0, 1, 2, 0, 2, 0, 1, 1));
-            deckCards1.Add(new Card(cardID++, 2, 0, 0, 0, 2, 0, 1, 1));
-            deckCards1.Add(new Card(cardID++, 0, 0, 4, 0, 0, 1, 1, 1));
+            deckCards1.Add(new Card(cardID++, 2, 1, 0, 0, 0, 0, 1, 4));
+            deckCards1.Add(new Card(cardID++, 1, 1, 2, 0, 1, 0, 1, 4));
+            deckCards1.Add(new Card(cardID++, 1, 1, 1, 0, 1, 0, 1, 4));
+            deckCards1.Add(new Card(cardID++, 0, 0, 1, 1, 3, 0, 1, 4));
+            deckCards1.Add(new Card(cardID++, 3, 0, 0, 0, 0, 0, 1, 4));
+            deckCards1.Add(new Card(cardID++, 0, 1, 2, 0, 2, 0, 1, 4));
+            deckCards1.Add(new Card(cardID++, 2, 0, 0, 0, 2, 0, 1, 4));
+            deckCards1.Add(new Card(cardID++, 0, 0, 4, 0, 0, 1, 1, 4));
 
-            deckCards1.Add(new Card(cardID++, 0, 2, 0, 1, 0, 0, 1, 2));
-            deckCards1.Add(new Card(cardID++, 0, 0, 2, 2, 0, 0, 1, 2));
-            deckCards1.Add(new Card(cardID++, 0, 1, 0, 3, 1, 0, 1, 2));
-            deckCards1.Add(new Card(cardID++, 1, 1, 1, 1, 0, 0, 1, 2));
-            deckCards1.Add(new Card(cardID++, 2, 1, 1, 1, 0, 0, 1, 2));
-            deckCards1.Add(new Card(cardID++, 2, 0, 2, 1, 0, 0, 1, 2));
-            deckCards1.Add(new Card(cardID++, 0, 0, 3, 0, 0, 0, 1, 2));
-            deckCards1.Add(new Card(cardID++, 4, 0, 0, 0, 0, 1, 1, 2));
+            deckCards1.Add(new Card(cardID++, 0, 2, 0, 1, 0, 0, 1, 3));
+            deckCards1.Add(new Card(cardID++, 0, 0, 2, 2, 0, 0, 1, 3));
+            deckCards1.Add(new Card(cardID++, 0, 1, 0, 3, 1, 0, 1, 3));
+            deckCards1.Add(new Card(cardID++, 1, 1, 1, 1, 0, 0, 1, 3));
+            deckCards1.Add(new Card(cardID++, 2, 1, 1, 1, 0, 0, 1, 3));
+            deckCards1.Add(new Card(cardID++, 2, 0, 2, 1, 0, 0, 1, 3));
+            deckCards1.Add(new Card(cardID++, 0, 0, 3, 0, 0, 0, 1, 3));
+            deckCards1.Add(new Card(cardID++, 4, 0, 0, 0, 0, 1, 1, 3));
 
-            deckCards1.Add(new Card(cardID++, 0, 3, 0, 0, 0, 0, 1, 3));
-            deckCards1.Add(new Card(cardID++, 3, 1, 1, 0, 0, 0, 1, 3));
-            deckCards1.Add(new Card(cardID++, 0, 0, 0, 2, 1, 0, 1, 3));
-            deckCards1.Add(new Card(cardID++, 2, 2, 0, 0, 1, 0, 1, 3));
-            deckCards1.Add(new Card(cardID++, 1, 2, 0, 1, 1, 0, 1, 3));
-            deckCards1.Add(new Card(cardID++, 1, 1, 0, 1, 1, 0, 1, 3));
-            deckCards1.Add(new Card(cardID++, 0, 2, 2, 0, 0, 0, 1, 3));
-            deckCards1.Add(new Card(cardID++, 0, 4, 0, 0, 0, 1, 1, 3));
+            deckCards1.Add(new Card(cardID++, 0, 3, 0, 0, 0, 0, 1, 1));
+            deckCards1.Add(new Card(cardID++, 3, 1, 1, 0, 0, 0, 1, 1));
+            deckCards1.Add(new Card(cardID++, 0, 0, 0, 2, 1, 0, 1, 1));
+            deckCards1.Add(new Card(cardID++, 2, 2, 0, 0, 1, 0, 1, 1));
+            deckCards1.Add(new Card(cardID++, 1, 2, 0, 1, 1, 0, 1, 1));
+            deckCards1.Add(new Card(cardID++, 1, 1, 0, 1, 1, 0, 1, 1));
+            deckCards1.Add(new Card(cardID++, 0, 2, 2, 0, 0, 0, 1, 1));
+            deckCards1.Add(new Card(cardID++, 0, 4, 0, 0, 0, 1, 1, 1));
 
-            deckCards1.Add(new Card(cardID++, 1, 0, 0, 2, 2, 0, 1, 4));
-            deckCards1.Add(new Card(cardID++, 1, 0, 2, 0, 0, 0, 1, 4));
-            deckCards1.Add(new Card(cardID++, 1, 0, 1, 1, 1, 0, 1, 4));
-            deckCards1.Add(new Card(cardID++, 0, 0, 0, 3, 0, 0, 1, 4));
-            deckCards1.Add(new Card(cardID++, 0, 0, 0, 2, 2, 0, 1, 4));
-            deckCards1.Add(new Card(cardID++, 1, 0, 1, 1, 2, 0, 1, 4));
-            deckCards1.Add(new Card(cardID++, 1, 3, 0, 1, 0, 0, 1, 4));
-            deckCards1.Add(new Card(cardID++, 0, 0, 0, 0, 4, 1, 1, 4));
+            deckCards1.Add(new Card(cardID++, 1, 0, 0, 2, 2, 0, 1, 2));
+            deckCards1.Add(new Card(cardID++, 1, 0, 2, 0, 0, 0, 1, 2));
+            deckCards1.Add(new Card(cardID++, 1, 0, 1, 1, 1, 0, 1, 2));
+            deckCards1.Add(new Card(cardID++, 0, 0, 0, 3, 0, 0, 1, 2));
+            deckCards1.Add(new Card(cardID++, 0, 0, 0, 2, 2, 0, 1, 2));
+            deckCards1.Add(new Card(cardID++, 1, 0, 1, 1, 2, 0, 1, 2));
+            deckCards1.Add(new Card(cardID++, 1, 3, 0, 1, 0, 0, 1, 2));
+            deckCards1.Add(new Card(cardID++, 0, 0, 0, 0, 4, 1, 1, 2));
 
             // Level 2
             deckCards2.Add(new Card(cardID++, 0, 3, 0, 2, 2, 1, 2, 0)); // 41
@@ -206,33 +208,33 @@ namespace GameClassDefine
             deckCards2.Add(new Card(cardID++, 0, 0, 3, 0, 5, 2, 2, 0));
             deckCards2.Add(new Card(cardID++, 6, 0, 0, 0, 0, 3, 2, 0));
 
-            deckCards2.Add(new Card(cardID++, 0, 0, 3, 2, 2, 1, 2, 1));
-            deckCards2.Add(new Card(cardID++, 3, 0, 0, 2, 3, 1, 2, 1));
-            deckCards2.Add(new Card(cardID++, 0, 5, 0, 3, 0, 2, 2, 1));
-            deckCards2.Add(new Card(cardID++, 0, 0, 0, 5, 0, 2, 2, 1));
-            deckCards2.Add(new Card(cardID++, 4, 2, 1, 0, 0, 2, 2, 1));
-            deckCards2.Add(new Card(cardID++, 0, 0, 0, 6, 0, 3, 2, 1));
+            deckCards2.Add(new Card(cardID++, 0, 0, 3, 2, 2, 1, 2, 4));
+            deckCards2.Add(new Card(cardID++, 3, 0, 0, 2, 3, 1, 2, 4));
+            deckCards2.Add(new Card(cardID++, 0, 5, 0, 3, 0, 2, 2, 4));
+            deckCards2.Add(new Card(cardID++, 0, 0, 0, 5, 0, 2, 2, 4));
+            deckCards2.Add(new Card(cardID++, 4, 2, 1, 0, 0, 2, 2, 4));
+            deckCards2.Add(new Card(cardID++, 0, 0, 0, 6, 0, 3, 2, 4));
 
-            deckCards2.Add(new Card(cardID++, 0, 3, 3, 0, 2, 1, 2, 2));
-            deckCards2.Add(new Card(cardID++, 2, 2, 0, 3, 0, 1, 2, 2));
-            deckCards2.Add(new Card(cardID++, 1, 4, 0, 2, 0, 2, 2, 2));
-            deckCards2.Add(new Card(cardID++, 0, 0, 0, 0, 5, 2, 2, 2));
-            deckCards2.Add(new Card(cardID++, 0, 0, 0, 5, 3, 2, 2, 2));
-            deckCards2.Add(new Card(cardID++, 0, 0, 0, 0, 6, 3, 2, 2));
+            deckCards2.Add(new Card(cardID++, 0, 3, 3, 0, 2, 1, 2, 3));
+            deckCards2.Add(new Card(cardID++, 2, 2, 0, 3, 0, 1, 2, 3));
+            deckCards2.Add(new Card(cardID++, 1, 4, 0, 2, 0, 2, 2, 3));
+            deckCards2.Add(new Card(cardID++, 0, 0, 0, 0, 5, 2, 2, 3));
+            deckCards2.Add(new Card(cardID++, 0, 0, 0, 5, 3, 2, 2, 3));
+            deckCards2.Add(new Card(cardID++, 0, 0, 0, 0, 6, 3, 2, 3));
 
-            deckCards2.Add(new Card(cardID++, 3, 0, 2, 3, 0, 1, 2, 3));
-            deckCards2.Add(new Card(cardID++, 3, 2, 2, 0, 0, 1, 2, 3));
-            deckCards2.Add(new Card(cardID++, 0, 1, 0, 4, 2, 2, 2, 3));
-            deckCards2.Add(new Card(cardID++, 5, 3, 0, 0, 0, 2, 2, 3));
-            deckCards2.Add(new Card(cardID++, 5, 0, 0, 0, 0, 2, 2, 3));
-            deckCards2.Add(new Card(cardID++, 0, 0, 6, 0, 0, 3, 2, 3));
+            deckCards2.Add(new Card(cardID++, 3, 0, 2, 3, 0, 1, 2, 1));
+            deckCards2.Add(new Card(cardID++, 3, 2, 2, 0, 0, 1, 2, 1));
+            deckCards2.Add(new Card(cardID++, 0, 1, 0, 4, 2, 2, 2, 1));
+            deckCards2.Add(new Card(cardID++, 5, 3, 0, 0, 0, 2, 2, 1));
+            deckCards2.Add(new Card(cardID++, 5, 0, 0, 0, 0, 2, 2, 1));
+            deckCards2.Add(new Card(cardID++, 0, 0, 6, 0, 0, 3, 2, 1));
 
-            deckCards2.Add(new Card(cardID++, 2, 0, 2, 0, 3, 1, 2, 4));
-            deckCards2.Add(new Card(cardID++, 0, 2, 3, 3, 0, 1, 2, 4));
-            deckCards2.Add(new Card(cardID++, 2, 0, 4, 0, 1, 2, 2, 4));
-            deckCards2.Add(new Card(cardID++, 0, 0, 5, 0, 0, 2, 2, 4));
-            deckCards2.Add(new Card(cardID++, 3, 0, 5, 0, 0, 2, 2, 4));
-            deckCards2.Add(new Card(cardID++, 0, 6, 0, 0, 0, 3, 2, 4));
+            deckCards2.Add(new Card(cardID++, 2, 0, 2, 0, 3, 1, 2, 2));
+            deckCards2.Add(new Card(cardID++, 0, 2, 3, 3, 0, 1, 2, 2));
+            deckCards2.Add(new Card(cardID++, 2, 0, 4, 0, 1, 2, 2, 2));
+            deckCards2.Add(new Card(cardID++, 0, 0, 5, 0, 0, 2, 2, 2));
+            deckCards2.Add(new Card(cardID++, 3, 0, 5, 0, 0, 2, 2, 2));
+            deckCards2.Add(new Card(cardID++, 0, 6, 0, 0, 0, 3, 2, 2));
 
             // Level 3
             deckCards3.Add(new Card(cardID++, 0, 3, 3, 3, 5, 3, 3, 0));
@@ -240,25 +242,25 @@ namespace GameClassDefine
             deckCards3.Add(new Card(cardID++, 3, 0, 6, 0, 3, 4, 3, 0));
             deckCards3.Add(new Card(cardID++, 3, 0, 7, 0, 0, 5, 3, 0));
 
-            deckCards3.Add(new Card(cardID++, 5, 3, 3, 0, 3, 3, 3, 1));
-            deckCards3.Add(new Card(cardID++, 0, 7, 0, 0, 0, 4, 3, 1));
-            deckCards3.Add(new Card(cardID++, 3, 6, 0, 3, 0, 4, 3, 1));
-            deckCards3.Add(new Card(cardID++, 0, 7, 0, 3, 0, 5, 3, 1));
+            deckCards3.Add(new Card(cardID++, 5, 3, 3, 0, 3, 3, 3, 4));
+            deckCards3.Add(new Card(cardID++, 0, 7, 0, 0, 0, 4, 3, 4));
+            deckCards3.Add(new Card(cardID++, 3, 6, 0, 3, 0, 4, 3, 4));
+            deckCards3.Add(new Card(cardID++, 0, 7, 0, 3, 0, 5, 3, 4));
 
-            deckCards3.Add(new Card(cardID++, 3, 5, 3, 3, 0, 3, 3, 2));
-            deckCards3.Add(new Card(cardID++, 0, 3, 0, 6, 3, 4, 3, 2));
-            deckCards3.Add(new Card(cardID++, 0, 0, 0, 7, 0, 4, 3, 2));
-            deckCards3.Add(new Card(cardID++, 0, 0, 0, 7, 3, 5, 3, 2));
+            deckCards3.Add(new Card(cardID++, 3, 5, 3, 3, 0, 3, 3, 3));
+            deckCards3.Add(new Card(cardID++, 0, 3, 0, 6, 3, 4, 3, 3));
+            deckCards3.Add(new Card(cardID++, 0, 0, 0, 7, 0, 4, 3, 3));
+            deckCards3.Add(new Card(cardID++, 0, 0, 0, 7, 3, 5, 3, 3));
 
-            deckCards3.Add(new Card(cardID++, 3, 3, 0, 5, 3, 3, 3, 3));
-            deckCards3.Add(new Card(cardID++, 0, 0, 0, 0, 7, 4, 3, 3));
-            deckCards3.Add(new Card(cardID++, 0, 0, 3, 3, 6, 4, 3, 3));
-            deckCards3.Add(new Card(cardID++, 0, 0, 3, 0, 7, 5, 3, 3));
+            deckCards3.Add(new Card(cardID++, 3, 3, 0, 5, 3, 3, 3, 1));
+            deckCards3.Add(new Card(cardID++, 0, 0, 0, 0, 7, 4, 3, 1));
+            deckCards3.Add(new Card(cardID++, 0, 0, 3, 3, 6, 4, 3, 1));
+            deckCards3.Add(new Card(cardID++, 0, 0, 3, 0, 7, 5, 3, 1));
 
-            deckCards3.Add(new Card(cardID++, 3, 0, 5, 3, 3, 3, 3, 4));
-            deckCards3.Add(new Card(cardID++, 7, 0, 0, 0, 0, 4, 3, 4));
-            deckCards3.Add(new Card(cardID++, 6, 3, 3, 0, 0, 4, 3, 4));
-            deckCards3.Add(new Card(cardID++, 7, 3, 0, 0, 0, 5, 3, 4));
+            deckCards3.Add(new Card(cardID++, 3, 0, 5, 3, 3, 3, 3, 2));
+            deckCards3.Add(new Card(cardID++, 7, 0, 0, 0, 0, 4, 3, 2));
+            deckCards3.Add(new Card(cardID++, 6, 3, 3, 0, 0, 4, 3, 2));
+            deckCards3.Add(new Card(cardID++, 7, 3, 0, 0, 0, 5, 3, 2));
 
             deckNoble.Add(new Noble(cardID++, 0, 0, 4, 0, 4));  // 91 ~ 100
             deckNoble.Add(new Noble(cardID++, 4, 4, 0, 0, 0));

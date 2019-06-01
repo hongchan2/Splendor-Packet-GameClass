@@ -39,7 +39,7 @@
             this.txtLog.Location = new System.Drawing.Point(0, 98);
             this.txtLog.Multiline = true;
             this.txtLog.Name = "txtLog";
-            this.txtLog.Size = new System.Drawing.Size(882, 677);
+            this.txtLog.Size = new System.Drawing.Size(888, 1067);
             this.txtLog.TabIndex = 0;
             // 
             // txtIP
@@ -72,13 +72,13 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(880, 776);
+            this.ClientSize = new System.Drawing.Size(884, 1166);
             this.Controls.Add(this.btnServer);
             this.Controls.Add(this.lblIP);
             this.Controls.Add(this.txtIP);
             this.Controls.Add(this.txtLog);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "SPLENDOR 게임 서버";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

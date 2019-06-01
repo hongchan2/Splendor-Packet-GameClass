@@ -3,3 +3,8 @@ C:\coding project\Splendor\SplendorServer\GameClassDefine\bin\Debug\GameClassDef
 C:\coding project\Splendor\SplendorServer\GameClassDefine\obj\Debug\GameClassDefine.csproj.CoreCompileInputs.cache
 C:\coding project\Splendor\SplendorServer\GameClassDefine\obj\Debug\GameClassDefine.dll
 C:\coding project\Splendor\SplendorServer\GameClassDefine\obj\Debug\GameClassDefine.pdb
+C:\coding project\SplendorServer_final\SplendorServer_final\GameClassDefine\bin\Debug\GameClassDefine.dll
+C:\coding project\SplendorServer_final\SplendorServer_final\GameClassDefine\bin\Debug\GameClassDefine.pdb
+C:\coding project\SplendorServer_final\SplendorServer_final\GameClassDefine\obj\Debug\GameClassDefine.csproj.CoreCompileInputs.cache
+C:\coding project\SplendorServer_final\SplendorServer_final\GameClassDefine\obj\Debug\GameClassDefine.dll
+C:\coding project\SplendorServer_final\SplendorServer_final\GameClassDefine\obj\Debug\GameClassDefine.pdb

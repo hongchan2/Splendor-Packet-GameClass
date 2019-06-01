@@ -57,7 +57,7 @@ namespace SplendorServer
 
         public void GetLocalIP()
         {
-            string localIP = "Not available, please check your network seetings!";
+            string localIP = "Not available, check network seetings";
             IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
             foreach (IPAddress ip in host.AddressList)
             {
@@ -135,6 +135,7 @@ namespace SplendorServer
                 Packet.Serialize(te).CopyTo(sendBuffer, 0);
                 Send(1);
             }
+            WriteLog("");
         }
 
         public void GameInit()
@@ -202,11 +203,6 @@ namespace SplendorServer
                 }
             }
 
-            /*
-            WriteLog("gemCnt : " + gemCnt);
-            WriteLog("twoGemCnt : " + twoGemCnt);
-            */
-
             if ((gemCnt == 3) && (twoGemCnt == 0))
             {
                 // 유효한 케이스 1
@@ -245,9 +241,16 @@ namespace SplendorServer
             int num = 0;
 
             if (turn == 1)
+            {
                 num = 1;
+                WriteLog("===== Player2의 활성화될 카드 계산 =====");
+            }
+                
             else if (turn == 2)
+            {
                 num = 0;
+                WriteLog("===== Player1의 활성화될 카드 계산 =====");
+            }   
 
             int[] currentPlayerGem = new int[5];
 
@@ -256,6 +259,8 @@ namespace SplendorServer
             {
                 currentPlayerGem[i] = gamePlayers[num].gemSale[i] + gamePlayers[num].playerGems[i];
             }
+            WriteLog("현재 보석 현황 (보유 보석 + 할인 보석)");
+            WriteLog(currentPlayerGem[2] + " " + currentPlayerGem[1] + " " + currentPlayerGem[3] + " " + currentPlayerGem[4] + " " + currentPlayerGem[0]);
 
             // i : 카드 변수, j : 잼 변수
             for (int i = 0; i < 4; i++)
@@ -303,6 +308,23 @@ namespace SplendorServer
                 if (isActiveThree)
                     activeCard.activeCards3[i] = true;
             }
+
+            // 로그 출력
+            string activeLog = "";
+            for (int i = 0; i < 4; i++)  
+                activeLog += activeCard.activeCards3[i].ToString() + " ";
+            WriteLog(activeLog);
+            activeLog = "";
+
+            for (int i = 0; i < 4; i++)
+                activeLog += activeCard.activeCards2[i].ToString() + " ";
+            WriteLog(activeLog);
+            activeLog = "";
+
+            for (int i = 0; i < 4; i++)
+                activeLog += activeCard.activeCards1[i].ToString() + " ";
+            WriteLog(activeLog);
+            WriteLog("===== 활성화될 카드 계산 종료 =====");
         }
 
         int CheckNoble(int playerNum)
@@ -332,6 +354,11 @@ namespace SplendorServer
             return -1;
         }
 
+        public static void RemoveAndAddCard(List<Card> list, int toRemove)
+        {
+            list[toRemove] = list[4];
+            list.Remove(list[4]);
+        }
 
         int purchaseCard(SelectCard mSelectCard, int playerNum)
         {
@@ -363,17 +390,17 @@ namespace SplendorServer
                 // 플레이어 보유 보석에서 카드 비용 제거
                 for (int n = 0; n < 5; n++)
                 {
-                    gamePlayers[playerNum].playerGems[n] =
-                        gamePlayers[playerNum].playerGems[n] -
-                        (board.boardCards1[i].cardCost[n] - gamePlayers[playerNum].gemSale[n]);
+                    gamePlayers[playerNum].playerGems[n] -= (board.boardCards1[i].cardCost[n] - gamePlayers[playerNum].gemSale[n]);
                 }
+                // 플레이어 보석 할인 추가
+                gamePlayers[playerNum].gemSale[board.boardCards1[i].cardGem]++;
                 // 플레이어1 보유 카드 목록에 추가
                 gamePlayers[playerNum].playerCards.Add(board.boardCards1[i]);
                 // 플레이어 점수 증가
                 gamePlayers[playerNum].totalScore += board.boardCards1[i].cardScore;
 
-                board.boardCards1.Remove(board.boardCards1[i]);
                 board.DrawCard(1);
+                RemoveAndAddCard(board.boardCards1, i);          
             }
             else if (level == 2) // level2
             {
@@ -386,17 +413,17 @@ namespace SplendorServer
                 // 플레이어 보유 보석에서 카드 비용 제거
                 for (int n = 0; n < 5; n++)
                 {
-                    gamePlayers[playerNum].playerGems[n] =
-                        gamePlayers[playerNum].playerGems[n] -
-                        (board.boardCards2[i].cardCost[n] - gamePlayers[playerNum].gemSale[n]);
+                    gamePlayers[playerNum].playerGems[n] -= (board.boardCards2[i].cardCost[n] - gamePlayers[playerNum].gemSale[n]);
                 }
+                // 플레이어 보석 할인 추가
+                gamePlayers[playerNum].gemSale[board.boardCards1[i].cardGem]++;
                 // 플레이어1 보유 카드 목록에 추가
                 gamePlayers[playerNum].playerCards.Add(board.boardCards2[i]);
                 // 플레이어 점수 증가
                 gamePlayers[playerNum].totalScore += board.boardCards2[i].cardScore;
 
-                board.boardCards2.Remove(board.boardCards2[i]);
                 board.DrawCard(2);
+                RemoveAndAddCard(board.boardCards2, i);
             }
             else if (level == 3) // level3
             {
@@ -409,17 +436,15 @@ namespace SplendorServer
                 // 플레이어 보유 보석에서 카드 비용 제거
                 for (int n = 0; n < 5; n++)
                 {
-                    gamePlayers[playerNum].playerGems[n] =
-                        gamePlayers[playerNum].playerGems[n] -
-                        (board.boardCards3[i].cardCost[n] - gamePlayers[playerNum].gemSale[n]);
+                    gamePlayers[playerNum].playerGems[n] -= (board.boardCards3[i].cardCost[n] - gamePlayers[playerNum].gemSale[n]);
                 }
                 // 플레이어1 보유 카드 목록에 추가
                 gamePlayers[playerNum].playerCards.Add(board.boardCards3[i]);
                 // 플레이어 점수 증가
                 gamePlayers[playerNum].totalScore += board.boardCards3[i].cardScore;
 
-                board.boardCards3.Remove(board.boardCards3[i]);
                 board.DrawCard(3);
+                RemoveAndAddCard(board.boardCards3, i);
             }
 
             return id;
@@ -549,18 +574,9 @@ namespace SplendorServer
                                         m_GemClass = (Gem)Packet.Desserialize(readBuffer);
                                         WriteLog("Player" + turn  + " - 보석 선택");
 
-                                        /*
-                                        WriteLog("선택한 보석");
-                                        for(int i = 0; i < 5; i++)
-                                        {
-                                            WriteLog(m_GemClass.gems[i].ToString());
-                                        }
-                                        */
-
                                         if (!GemIsValid())
                                         {
                                             // 보석이 유효하지 않는 경우
-                                            WriteLog("Player" + turn + " - 보석이 유효하지 않습니다");
                                             Gem sendInValid = new Gem();
                                             sendInValid.Type = (int)PacketType.gem;
 
