@@ -1,0 +1,17 @@
+C:\coding project\Splendor\SplendorServer\GameClassDefine\bin\Debug\GameClassDefine.dll
+C:\coding project\Splendor\SplendorServer\GameClassDefine\bin\Debug\GameClassDefine.pdb
+C:\coding project\Splendor\SplendorServer\GameClassDefine\obj\Debug\GameClassDefine.csproj.CoreCompileInputs.cache
+C:\coding project\Splendor\SplendorServer\GameClassDefine\obj\Debug\GameClassDefine.dll
+C:\coding project\Splendor\SplendorServer\GameClassDefine\obj\Debug\GameClassDefine.pdb
+C:\Users\vomin\Downloads\Splendor-Packet-GameClass-master\SplendorServer_final\GameClassDefine\bin\Debug\GameClassDefine.dll
+C:\Users\vomin\Downloads\Splendor-Packet-GameClass-master\SplendorServer_final\GameClassDefine\bin\Debug\GameClassDefine.pdb
+C:\Users\vomin\Downloads\Splendor-Packet-GameClass-master\SplendorServer_final\GameClassDefine\obj\Debug\GameClassDefine.csprojAssemblyReference.cache
+C:\Users\vomin\Downloads\Splendor-Packet-GameClass-master\SplendorServer_final\GameClassDefine\obj\Debug\GameClassDefine.csproj.CoreCompileInputs.cache
+C:\Users\vomin\Downloads\Splendor-Packet-GameClass-master\SplendorServer_final\GameClassDefine\obj\Debug\GameClassDefine.dll
+C:\Users\vomin\Downloads\Splendor-Packet-GameClass-master\SplendorServer_final\GameClassDefine\obj\Debug\GameClassDefine.pdb
+C:\Users\vomin\OneDrive\Documents\3-1\응용소프트웨어실습\프로젝트\서버+클라\SplendorServer_final\GameClassDefine\bin\Debug\GameClassDefine.dll
+C:\Users\vomin\OneDrive\Documents\3-1\응용소프트웨어실습\프로젝트\서버+클라\SplendorServer_final\GameClassDefine\bin\Debug\GameClassDefine.pdb
+C:\Users\vomin\OneDrive\Documents\3-1\응용소프트웨어실습\프로젝트\서버+클라\SplendorServer_final\GameClassDefine\obj\Debug\GameClassDefine.csprojAssemblyReference.cache
+C:\Users\vomin\OneDrive\Documents\3-1\응용소프트웨어실습\프로젝트\서버+클라\SplendorServer_final\GameClassDefine\obj\Debug\GameClassDefine.csproj.CoreCompileInputs.cache
+C:\Users\vomin\OneDrive\Documents\3-1\응용소프트웨어실습\프로젝트\서버+클라\SplendorServer_final\GameClassDefine\obj\Debug\GameClassDefine.dll
+C:\Users\vomin\OneDrive\Documents\3-1\응용소프트웨어실습\프로젝트\서버+클라\SplendorServer_final\GameClassDefine\obj\Debug\GameClassDefine.pdb

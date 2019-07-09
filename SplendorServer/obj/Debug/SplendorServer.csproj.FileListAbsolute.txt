@@ -1,0 +1,45 @@
+C:\coding project\Splendor\SplendorServer\SplendorServer\bin\Debug\SplendorServer.exe.config
+C:\coding project\Splendor\SplendorServer\SplendorServer\bin\Debug\SplendorServer.exe
+C:\coding project\Splendor\SplendorServer\SplendorServer\bin\Debug\SplendorServer.pdb
+C:\coding project\Splendor\SplendorServer\SplendorServer\bin\Debug\GameClassDefine.dll
+C:\coding project\Splendor\SplendorServer\SplendorServer\bin\Debug\PakcetDefine.dll
+C:\coding project\Splendor\SplendorServer\SplendorServer\bin\Debug\GameClassDefine.pdb
+C:\coding project\Splendor\SplendorServer\SplendorServer\bin\Debug\PakcetDefine.pdb
+C:\coding project\Splendor\SplendorServer\SplendorServer\obj\Debug\SplendorServer.csprojAssemblyReference.cache
+C:\coding project\Splendor\SplendorServer\SplendorServer\obj\Debug\SplendorServer.Form1.resources
+C:\coding project\Splendor\SplendorServer\SplendorServer\obj\Debug\SplendorServer.Properties.Resources.resources
+C:\coding project\Splendor\SplendorServer\SplendorServer\obj\Debug\SplendorServer.csproj.GenerateResource.cache
+C:\coding project\Splendor\SplendorServer\SplendorServer\obj\Debug\SplendorServer.csproj.CoreCompileInputs.cache
+C:\coding project\Splendor\SplendorServer\SplendorServer\obj\Debug\SplendorServer.csproj.CopyComplete
+C:\coding project\Splendor\SplendorServer\SplendorServer\obj\Debug\SplendorServer.exe
+C:\coding project\Splendor\SplendorServer\SplendorServer\obj\Debug\SplendorServer.pdb
+C:\Users\vomin\Downloads\Splendor-Packet-GameClass-master\SplendorServer_final\SplendorServer\bin\Debug\SplendorServer.exe.config
+C:\Users\vomin\Downloads\Splendor-Packet-GameClass-master\SplendorServer_final\SplendorServer\bin\Debug\SplendorServer.exe
+C:\Users\vomin\Downloads\Splendor-Packet-GameClass-master\SplendorServer_final\SplendorServer\bin\Debug\SplendorServer.pdb
+C:\Users\vomin\Downloads\Splendor-Packet-GameClass-master\SplendorServer_final\SplendorServer\bin\Debug\GameClassDefine.dll
+C:\Users\vomin\Downloads\Splendor-Packet-GameClass-master\SplendorServer_final\SplendorServer\bin\Debug\PakcetDefine.dll
+C:\Users\vomin\Downloads\Splendor-Packet-GameClass-master\SplendorServer_final\SplendorServer\bin\Debug\GameClassDefine.pdb
+C:\Users\vomin\Downloads\Splendor-Packet-GameClass-master\SplendorServer_final\SplendorServer\bin\Debug\PakcetDefine.pdb
+C:\Users\vomin\Downloads\Splendor-Packet-GameClass-master\SplendorServer_final\SplendorServer\obj\Debug\SplendorServer.csprojAssemblyReference.cache
+C:\Users\vomin\Downloads\Splendor-Packet-GameClass-master\SplendorServer_final\SplendorServer\obj\Debug\SplendorServer.Form1.resources
+C:\Users\vomin\Downloads\Splendor-Packet-GameClass-master\SplendorServer_final\SplendorServer\obj\Debug\SplendorServer.Properties.Resources.resources
+C:\Users\vomin\Downloads\Splendor-Packet-GameClass-master\SplendorServer_final\SplendorServer\obj\Debug\SplendorServer.csproj.GenerateResource.cache
+C:\Users\vomin\Downloads\Splendor-Packet-GameClass-master\SplendorServer_final\SplendorServer\obj\Debug\SplendorServer.csproj.CoreCompileInputs.cache
+C:\Users\vomin\Downloads\Splendor-Packet-GameClass-master\SplendorServer_final\SplendorServer\obj\Debug\SplendorServer.csproj.CopyComplete
+C:\Users\vomin\Downloads\Splendor-Packet-GameClass-master\SplendorServer_final\SplendorServer\obj\Debug\SplendorServer.exe
+C:\Users\vomin\Downloads\Splendor-Packet-GameClass-master\SplendorServer_final\SplendorServer\obj\Debug\SplendorServer.pdb
+C:\Users\vomin\OneDrive\Documents\3-1\응용소프트웨어실습\프로젝트\서버+클라\SplendorServer_final\SplendorServer\bin\Debug\SplendorServer.exe.config
+C:\Users\vomin\OneDrive\Documents\3-1\응용소프트웨어실습\프로젝트\서버+클라\SplendorServer_final\SplendorServer\bin\Debug\SplendorServer.exe
+C:\Users\vomin\OneDrive\Documents\3-1\응용소프트웨어실습\프로젝트\서버+클라\SplendorServer_final\SplendorServer\bin\Debug\SplendorServer.pdb
+C:\Users\vomin\OneDrive\Documents\3-1\응용소프트웨어실습\프로젝트\서버+클라\SplendorServer_final\SplendorServer\bin\Debug\GameClassDefine.dll
+C:\Users\vomin\OneDrive\Documents\3-1\응용소프트웨어실습\프로젝트\서버+클라\SplendorServer_final\SplendorServer\bin\Debug\PakcetDefine.dll
+C:\Users\vomin\OneDrive\Documents\3-1\응용소프트웨어실습\프로젝트\서버+클라\SplendorServer_final\SplendorServer\bin\Debug\GameClassDefine.pdb
+C:\Users\vomin\OneDrive\Documents\3-1\응용소프트웨어실습\프로젝트\서버+클라\SplendorServer_final\SplendorServer\bin\Debug\PakcetDefine.pdb
+C:\Users\vomin\OneDrive\Documents\3-1\응용소프트웨어실습\프로젝트\서버+클라\SplendorServer_final\SplendorServer\obj\Debug\SplendorServer.csprojAssemblyReference.cache
+C:\Users\vomin\OneDrive\Documents\3-1\응용소프트웨어실습\프로젝트\서버+클라\SplendorServer_final\SplendorServer\obj\Debug\SplendorServer.Form1.resources
+C:\Users\vomin\OneDrive\Documents\3-1\응용소프트웨어실습\프로젝트\서버+클라\SplendorServer_final\SplendorServer\obj\Debug\SplendorServer.Properties.Resources.resources
+C:\Users\vomin\OneDrive\Documents\3-1\응용소프트웨어실습\프로젝트\서버+클라\SplendorServer_final\SplendorServer\obj\Debug\SplendorServer.csproj.GenerateResource.cache
+C:\Users\vomin\OneDrive\Documents\3-1\응용소프트웨어실습\프로젝트\서버+클라\SplendorServer_final\SplendorServer\obj\Debug\SplendorServer.csproj.CoreCompileInputs.cache
+C:\Users\vomin\OneDrive\Documents\3-1\응용소프트웨어실습\프로젝트\서버+클라\SplendorServer_final\SplendorServer\obj\Debug\SplendorServer.csproj.CopyComplete
+C:\Users\vomin\OneDrive\Documents\3-1\응용소프트웨어실습\프로젝트\서버+클라\SplendorServer_final\SplendorServer\obj\Debug\SplendorServer.exe
+C:\Users\vomin\OneDrive\Documents\3-1\응용소프트웨어실습\프로젝트\서버+클라\SplendorServer_final\SplendorServer\obj\Debug\SplendorServer.pdb
